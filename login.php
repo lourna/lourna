@@ -1,101 +1,91 @@
- <!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" class="fullscreen-bg">
 
-  <head>
+<head>
+	<title>Login | SIANI</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<!-- VENDOR CSS -->
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/vendor/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="assets/vendor/linearicons/style.css">
+	<!-- MAIN CSS -->
+	<link rel="stylesheet" href="assets/css/main.css">
+	<!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+	<link rel="stylesheet" href="assets/css/demo.css">
+	<!-- GOOGLE FONTS -->
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+	<!-- ICONS -->
+	<link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+	<!--Ikon di title -->
+	<link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
+</head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<body>
+	<?php
+		$user = "user";
+		session_start();
+		$gagal = "";
 
-    <title>SIANI - Login</title>
+		$pass = "pass";
 
-    <!-- Bootstrap core CSS-->
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="shortcut icon" href="aset/favicon1.ico">
+		include 'koneksi.php';
+		if ($_SERVER["REQUEST_METHOD"] == "POST") {
+			$user = $_POST['user'];
+			$pass = md5($_POST['pass']);
+			$query = "SELECT * FROM users WHERE user_name = '$_POST[user]' AND password = '$_POST[pass]' AND status = 'Aktif'";
+			$result = mysqli_query($con, $query);
+			$val = mysqli_fetch_assoc($result);
+			if (mysqli_num_rows($result) > 0) {
+				$_SESSION['id_user'] = $val['id_user'];
+				$_SESSION['user_name'] = $val['user_name'];
+				$_SESSION['level'] = $val['level'];
+				echo "<script> alert('Berhasil Login');
+				window.location.href = 'dashboard/dashboard.php';
+				</script>";
+			}
+			else{
+				$gagal = "* Username atau password salah atau user Non Aktif";
+			}
+		}
 
-  </head>
+	 ?>
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<div class="vertical-align-wrap">
+			<div class="vertical-align-middle">
+				<div class="auth-box ">
+					<div class="left">
+						<div class="content">
+							<div class="header">
+								<h2>SIANI</h2>
+								<p class="lead">Login</p>
+							</div>
+							<form class="form-auth-small" action="" method="POST">
+								<div class="input-group">
+									<label for="signin-email" class="control-label sr-only">Username</label>
+									<span class="input-group-addon"><i class="fa fa-user"></i></span>
+									<input type="text" class="form-control" id="signin-email"  placeholder="Username" name="user" required>
 
-  <body class="bg-dark">
-    <?php
-        session_start();
-        include 'koneksi.php';
-        if (isset($_POST['submit'])) {
-            $query = mysqli_query($con, "SELECT * FROM users WHERE user_name = '$_POST[username]' AND password = '$_POST[password]'");
-            $value = mysqli_fetch_assoc($query);
-            $cek = mysqli_num_rows($query);
-            if ($cek > 0) {
-                $_SESSION['id_user'] = $value['id_user'];
-                $_SESSION['username'] = $value['user_name'];
-                $_SESSION['level'] = $value['level'];
-
-
-                if ($_SESSION['level'] == "admin") {
-                	// echo "Selamat datang admin <br>";
-                	// echo $_SESSION['username'];
-                  echo "<script>
-                          alert('Selamat datang admin, Anda Berhasil login ');
-                          window.location.href='admin/index.php';
-                        </script>";
-
-                }
-                else{
-                	// echo "Selamat datang user <br>";
-                	// echo $_SESSION['username'] . "<br>";
-                	// echo $_SESSION['level'];
-                  echo "<script>
-                          alert('Berhasil login ');
-                          window.location.href='siswa/index.php';
-                        </script>";
-                }
-
-
-            }
-            else{
-                echo "<script>
-                        alert('Username atau password salah ! ');
-                      </script>";
-            }
-
-        }
-     ?>
-    <div class="container">
-      <div class="card card-login mx-auto mt-5">
-        <div class="card-header text-center">
-          <img src="aset/logo.png" width="120px" alt=""></div>
-        <div class="card-body">
-          <form action="" method="post">
-            <div class=" form-group">
-              <div class="form-label-group">
-                <input type="text" name="username" id="username" class="form-control" placeholder="User Name" required="required" autofocus="autofocus">
-                <label for="username">User Name</label>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="form-label-group">
-                <input type="password" name="password" id="password" class="form-control" placeholder="password" required="required">
-                <label for="password">Password</label>
-              </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary " name="submit" value="submit">login</button>
-
-            <!-- <a Name="login" value="submit" class="btn btn-primary btn-block"  href="siswa/index.php">Login</a> -->
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  </body>
+								</div>
+								<br>
+								<div class="input-group">
+									<label for="signin-password" class="control-label sr-only">Password</label>
+									<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+									<input type="password" class="form-control" id="signin-password" placeholder="Password" name="pass" value="" required>
+								</div>
+								<span class="text-danger"><?php echo $gagal; ?></span>
+								<button type="submit" class="btn btn-primary btn-lg btn-block">LOGIN</button>
+							</form>
+						</div>
+					</div>
+					<!-- <div class="clearfix"></div> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END WRAPPER -->
+</body>
 
 </html>
