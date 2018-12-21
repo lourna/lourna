@@ -1,3 +1,25 @@
+<?php
+session_start();
+if (empty($_SESSION['username']) && empty($_SESSION['level'])) {
+	echo "<script>
+		alert('Anda harus login dahulu !');
+		window.location.href='../login.php';
+	</script>";
+}
+else {
+	include '../koneksi.php';
+
+	function hitungJml($tb, $where)
+	{
+		include '../koneksi.php';
+		$query = mysqli_query($con, "SELECT COUNT(*) as jml FROM $tb $where");
+		$val = mysqli_fetch_array($query);
+		return $val['jml'];
+	}
+	date_default_timezone_set("Asia/Jakarta");
+	$now = date('Y-m-d');
+}
+ ?>
 <!doctype html>
 <html lang="en">
 <head>

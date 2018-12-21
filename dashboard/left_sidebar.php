@@ -1,4 +1,5 @@
 <?php
+	include '../koneksi.php';
 	$nav = explode('/', $_SERVER['REQUEST_URI']);
 	//$nav_dok = $nav[count($nav)]
 	$nav = $nav[count($nav) - 2];
@@ -11,7 +12,7 @@
 		<nav>
 			<ul class="nav">
 				<?php
-				session_start();
+				// session_start();
 					if ($_SESSION['level'] == 'Admin') {?>
 
 						<li><a href="../dashboard/dashboard.php" class="<?php echo ($nav == 'dashboard' ? 'active' : '') ?>"><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
@@ -45,7 +46,7 @@
 						<li><a href="../kunjungan/data_kunjungan.php" class="<?php echo ($nav == "kunjungan" ? 'active' : '') ?>"><i class="glyphicon glyphicon-list-alt"></i> <span>Data Kunjungan</span></a></li>
 				<?php
 					}
-					if ($_SESSION['level'] == 'Guru') {?>
+					elseif ($_SESSION['level'] == 'Guru') {?>
 
 						<li><a href="../dashboard/dashboard.php" class="<?php echo ($nav == 'dashboard' ? 'active' : '') ?>"><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
 						<li><a href="../siswa/data_siswa.php" class="<?php echo ($nav == "siswa" ? 'active' : '') ?>"><i class="lnr lnr-user"></i> <span>Data Siswa</span></a></li>

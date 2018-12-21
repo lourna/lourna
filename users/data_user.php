@@ -1,7 +1,16 @@
-<!doctype html>
+<?php
+session_start();
+if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
+	echo "<script>
+		alert('Anda harus login dahulu !');
+		window.location.href='../login.php';
+	</script>";
+}
+ ?>
+ <!doctype html>
 <html lang="en">
 <head>
-	<title>Data Petugas | SIANI</title>
+	<title>Data User | SIANI</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -34,7 +43,7 @@
 				<div class="container-fluid">
 					<div class="panel">
 						<div class="panel-heading">
-							<h3 class="panel-title"><i class="lnr lnr-user"></i>&ensp;Data Petugas</h3>
+							<h3 class="panel-title"><i class="lnr lnr-user"></i>&ensp;Data User</h3>
 							<div class="col-md-2 col-md-offset-10">
 
 							</div>
@@ -47,7 +56,7 @@
 								<br>
 								<div class="row">
 									<div class="col-md-2">
-										<a href="tambah_petugas.php"><button type="button" class="btn btn-primary btn-sm" style="margin-left: 25px; margin-bottom: 10px;">Tambah</button></a>
+										<a href="tambah_user.php"><button type="button" class="btn btn-primary btn-sm" style="margin-left: 25px; margin-bottom: 10px;">Tambah</button></a>
 									</div>
 									 <div class="col-md-6"></div>
 									<div class="col-md-4">
@@ -64,6 +73,7 @@
 									<table class="table table-striped table-hover table-bordered">
 										<thead>
 											<tr>
+												<th>No</th>
 												<th>Id</th>
 												<th>Nama</th>
 												<th>User Name</th>
@@ -83,28 +93,25 @@
 											</script>
 											<?php
 												if (isset($_POST['btn_cari'])) {
-													$and = "AND nama_petugas LIKE '%$_POST[cari]%' AND username != '$_SESSION[username]'";
+													$and = "AND users LIKE '%$_POST[cari]%' AND user_name != '$_SESSION[user_name]'";
 												}
 												else{
 													$and = "";
 												}
-												$query = "SELECT p.*, l.level, l.status FROM petugas p INNER JOIN login l ON p.id_petugas = l.id_user WHERE l.level != 'Dokter' $and ORDER BY p.id_petugas ASC";
+												$query = "SELECT users.id_user, first_name, last_name, user_name, password, kelas, jurusan, level FROM users LEFT JOIN siswa ON users.id_user=siswa.id_user LEFT JOIN hasil_nilai ON siswa.nis=hasil_nilai.nis LEFT JOIN section ON hasil_nilai.id_section=section.id_section LEFT JOIN kelas ON section.kd_kelas=kelas.kd_kelas LEFT JOIN jurusan ON kelas.id_jurusan=jurusan.id_jurusan";
 												$result = mysqli_query($con, $query);
 												$jml_petugas = mysqli_num_rows($result);
 												$no = 1;
 												foreach ($result as $val) {
-													$title = $val['status'] == 'Aktif' ? 'Non Aktifkan' : 'Aktifkan';
-													$btnclass = $val['status'] == 'Aktif' ? 'btn-success' : 'btn-danger';
-													$label = $val['status'] == 'Aktif' ? 'label label-success' : 'label label-danger';
 													echo "<tr>
 															<td>$no</td>
-															<td>$val[nama_petugas]</td>
-															<td>$val[gender]</td>
-															<td>$val[alamat]</td>
-															<td>$val[no_hp]</td>
+															<td>$val[id_user]</td>
+															<td>$val[first_name]</td>
+															<td>$val[user_name]</td>
+															<td>$val[password]</td>
+															<td>$val[kelas]</td>
 															<td>$val[level]</td>
-															<td><span class='$label'>$val[status]</span></td>
-															<td><a onclick = 'return konfirm()' href='status_petugas.php?id_petugas=$val[id_petugas]&status=$val[status]' class='btn $btnclass btn-xs' title='$title'><i class='fa fa-power-off'></i></a></td>
+
 														  </tr>
 													";
 													$no++;
