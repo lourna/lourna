@@ -38,7 +38,7 @@ if (empty($_SESSION['username']) && empty($_SESSION['level'])) {
 			include '../dashboard/left_sidebar.php';
 
 			$nis_err = $first_name_err = $last_name_err = $kelas_err = $tgl_lahir_err = $alamat_err = $no_hp_err = $wali_murid_err = $no_wali_err = "";
-			$nis = $first_name = $last_name = $kelas = $tgl_lahir = $no_hp = $wali_murid = $no_wali = "";
+			$nis = $first_name = $last_name = $kelas = $tgl_lahir = $no_hp = $wali_murid = $hp_wali = "";
 			$alamat = "Alamat";
 
 			if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -163,36 +163,62 @@ if (empty($_SESSION['username']) && empty($_SESSION['level'])) {
 												<input type="text" name="first_name" minlength="1" maxlength="20" class="form-control" placeholder="Nama Depan" value="<?php echo(isset($_POST['first_name']) ? $_POST['first_name'] : $first_name ) ?>">
 		 										<span class="text-danger"> <?php echo($first_name_err); ?></span>
 											</div>
+										</div>
+										<br>
+										<div class="row">
 											<div class="col-md-6">
 												<label for="">Nama Belakang</label>
-												<input type="text" name="last_name" minlength="1" maxlength="20" class="form-control" placeholder="Nama Belakang" value="<?php echo(isset($_POST['last_name']) ? $_POST['last_name'] : $last_name ) ?>">
-		 										<span class="text-danger"> <?php echo($last_name_err); ?></span>
+													<input type="text" name="last_name" minlength="1" maxlength="20" class="form-control" placeholder="Nama Belakang" value="<?php echo(isset($_POST['last_name']) ? $_POST['last_name'] : $last_name ) ?>">
+			 										<span class="text-danger"> <?php echo($last_name_err); ?></span>
 											</div>
 											<div class="col-md-6">
 												<label for="">Kelas</label>
-										   			<select class="form-control" name="poli">
+											   		<select class="form-control" name="poli">
 														<option value="">-- Pilih Kelas --</option>
 															<?php
 																$qkelas = mysqli_query($con, "SELECT * FROM kelas");
 																while ($val = mysqli_fetch_assoc($qkelas)) {
-																	echo "<option value = '$val[id_kelas]' isset($_POST[kelas]) && $_POST[kelas] == $val[id_kelas] ? 'selected' : ''> $val[kelas] </option>";
+																echo "<option value = '$val[id_kelas]' isset($_POST[kelas]) && $_POST[kelas] == $val[id_kelas] ? 'selected' : ''> $val[kelas] </option>";
 																}
-															 ?>
-										    		</select>
-												<span class="text-danger"><?php echo ($kelas_err) ?></span>
-										  	</div>
+															?>
+											    	</select>
+													<span class="text-danger"><?php echo ($kelas_err) ?></span>
+											 </div>
+										</div>
+										<br>
+										<div class="row">
 										  	<div class="col-md-6">
-												<label for=""></label>
-												<input type="text" name="last_name" minlength="1" maxlength="20" class="form-control" placeholder="Nama Belakang" value="<?php echo(isset($_POST['last_name']) ? $_POST['last_name'] : $last_name ) ?>">
-		 										<span class="text-danger"> <?php echo($last_name_err); ?></span>
+												<label for="">Tanggal Lahir</label>
+													<input type="date" name="tgl_lahir" minlength="10" maxlength="10" class="form-control" placeholder="Tanggal Lahir" value="<?php echo(isset($_POST['tgl_lahir']) ? $_POST['tgl_lahir'] : $tgl_lahir ) ?>">
+		 												<span class="text-danger"> <?php echo($tgl_lahir_err); ?></span>
 											</div>
-
-
-
-
-
-
-
+											<div class="col-md-6">
+												<label for="">Alamat</label>
+												<textarea name="alamat" class="form-control" rows="2"><?php echo $alamat ?></textarea>
+												<span class="text-danger"> <?php echo($alamat_err); ?></span>
+											</div>
+										</div>
+										<br>
+										<div class="row">
+											<div class="col-md-6">
+												<label for="">No. Hp</label>
+												<input type="text" name="no_hp" minlength="11" maxlength="13" class="form-control" placeholder="No. Hp" value="<?php echo(isset($_POST['no_hp']) ? $_POST['no_hp'] : $no_hp ) ?>">
+		 										<span class="text-danger"> <?php echo($no_hp_err); ?></span>
+											</div>
+											<div class="col-md-6">
+												<label for="">Wali Murid</label>
+												<input type="text" name="wali_murid" minlength="1" maxlength="20" class="form-control" placeholder="Wali Murid" value="<?php echo(isset($_POST['wali_murid']) ? $_POST['wali_murid'] : $wali_murid ) ?>">
+		 										<span class="text-danger"> <?php echo($wali_murid_err); ?></span>
+											</div>
+										</div>
+										<br>
+										<div class="row">
+											<div class="col-md-6">
+												<label for="">Hp Wali</label>
+												<input type="text" name="hp_wali" minlength="11" maxlength="13" class="form-control" placeholder="hp_wali" value="<?php echo(isset($_POST['hp_wali']) ? $_POST['hp_wali'] : $hp_wali ) ?>">
+		 										<span class="text-danger"> <?php echo($hp_wali_err); ?></span>
+											</div>
+										</div>
 										<br>
 										<div class="row">
 		 									<div class="col-md-6">
