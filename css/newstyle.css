@@ -1,0 +1,88 @@
+body{
+  height: 2000px;
+}
+
+.container{
+  width: 100%;
+  margin:auto;
+}
+.header{
+  padding: 8px;
+  background-color: #007BFF;
+  top: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
+  display: inline-block;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+
+}
+.header img {
+  position: relative;
+  left: 90px;
+
+}
+.header .line{
+    background-color: white;
+    height: 44px;
+    width: 1px;
+    position: fixed;
+    left: 290px;
+    bottom: auto;
+    display: inline-block;
+}
+
+.header h2{
+  position: relative;
+  left: 210px;
+  top: 5px;
+  display: inline-block;
+  font-size: 28px;
+  margin: 0;
+}
+
+
+.header .btn-group{
+  position: fixed;
+  right: 30px;
+}
+
+.dropdown-item{
+  display: block;
+  width: 100%;
+  padding: 0.25rem 1.5rem;
+  clear: both;
+  font-weight: 400;
+  color: #212529;
+  text-align: inherit;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+}
+
+.sidebar {
+    padding: 20px;
+    width: 290px;
+    height: 100%;
+    background-color: #2A69B1;
+    top: 0;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    z-index: 1;
+    display: inline-block;
+
+}
+.sidebar .profil{
+  padding: 15px;
+  box-shadow: 0 10px 6px -7px rgba(0,0,0,0.075);
+}
+
+.sidebar .profil img{
+  border: 3px solid #dee2e6;
+}
+.nav-Color:link{
+  color: white;
+}

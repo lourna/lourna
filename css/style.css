@@ -1,0 +1,149 @@
+body {
+  margin-top: 65px;
+  background-color: #bdbdbd;
+}
+
+/*sidebar*/
+.sidebar-sticky{
+  position: relative;
+ top: 10px;
+ left: 30px;
+ height: calc(100vh - 48px);
+ width: 250px;
+ padding-top: .5rem;
+ overflow-x: hidden;
+ overflow-y: auto;
+}
+.sidebar {
+  background-color: black;
+  position: absolute;
+  height: 100%;
+  top: 55px;
+  left: 0px;
+  width: 290px;
+  padding: 0;
+}
+.jenis-font{
+  font-family: sans-serif;
+  font-size: 19px;
+}
+.foto-profil{
+    border: 3px solid #dee2e6
+}
+.bg-blue{
+  background-color: #2A69B1;
+}
+.nav-color {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #fff;
+}
+.nav-top{
+  position: relative;
+  top: 10px;
+}
+.lurus {
+  display: inline-block;
+}
+.link-active{
+  background-color: #2A69B1;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  border-radius: 8px 0px 0px 0px;
+  border-top: 2px solid #dee2e6;
+  border-right: 2px solid #2A69B5;
+}
+
+/*header*/
+.logo-position{
+  position: relative;
+  left : 25px;
+}
+.line{
+    background-color: white;
+    height: 44px;
+    margin: -25px 16px;
+    width: 1px;
+    position: relative;
+    left : 208px;
+    bottom: 18px
+}
+.wellcome-position{
+  font-size: 25px;
+  margin: -18px 16px;
+  position: relative;
+  left: 267px;
+  bottom: 22px;
+}
+.navbar-header{
+
+}
+
+/*jumbotron*/
+.jumbotron-position{
+  position: relative;
+  left: 300px;
+  width: 1020px;
+  height: 100%;
+}
+#wrapper{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+#content-wrapper{
+      overflow-x: hidden;
+      width: 100%;
+      height: 100%;
+      padding-top: 1rem;
+      padding-bottom: 100px;
+      padding-left: 280px;
+}
+.sticky-footer{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: calc(100% - 290px);
+    height: 80px;
+    background-color: #e9ecef;
+}
+.bottom{
+  margin-bottom:auto;
+}
+
+/* gantipassword */
+.m{
+  margin-left: 250px;
+}
+.container-card{
+  width: 100%;
+  padding-right: 350px;
+  padding-left: 350px;
+  /* margin-right: 300px;
+  margin-left: 300px; */
+}
+/* buttonadmin */
+.btn-position{
+position: relative;
+right: 0;
+}
+.buttonpos{
+  position: relative;
+}
+
+
+.container-login {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media (min-width: 992px){
+.container-login {
+    max-width: 600px;
+}
+}
