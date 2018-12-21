@@ -100,17 +100,25 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 												}
 												$query = "SELECT users.id_user, first_name, last_name, user_name, password, kelas, jurusan, level FROM users LEFT JOIN siswa ON users.id_user=siswa.id_user LEFT JOIN hasil_nilai ON siswa.nis=hasil_nilai.nis LEFT JOIN section ON hasil_nilai.id_section=section.id_section LEFT JOIN kelas ON section.kd_kelas=kelas.kd_kelas LEFT JOIN jurusan ON kelas.id_jurusan=jurusan.id_jurusan";
 												$result = mysqli_query($con, $query);
-												$jml_petugas = mysqli_num_rows($result);
+												$jml_user = mysqli_num_rows($result);
 												$no = 1;
+												// $edit = "<td><a href='edit_user.php?id_user=$val[id_user]' class='btn btn-primary btn-xs' title='Edit'></a></td>";
+
 												foreach ($result as $val) {
 													echo "<tr>
 															<td>$no</td>
 															<td>$val[id_user]</td>
-															<td>$val[first_name]</td>
+															<td>$val[first_name] $val[last_name]</td>
 															<td>$val[user_name]</td>
 															<td>$val[password]</td>
 															<td>$val[kelas]</td>
 															<td>$val[level]</td>
+															<td>
+															<a href='edit_user.php?id_user=$val[id_user]' class='btn btn-primary btn-xs' title='Edit'><i class='fa fa-pencil'></i></a>
+															<a href='edit_user.php?id_user=$val[id_user]' class='btn btn-danger btn-xs' title='Edit'><i class='lnr lnr-trash'></i></a>
+															</td>
+
+														  </tr>
 
 														  </tr>
 													";
@@ -119,7 +127,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 													?>
 										</tbody>
 									</table>
-									<span class="text-default">Jumlah data : <?php echo($jml_petugas) ?></span>
+									<span class="text-default">Jumlah data : <?php echo($jml_user) ?></span>
 								</div>
 							</div>
 						</div>
