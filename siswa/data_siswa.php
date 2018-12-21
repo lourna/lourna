@@ -93,7 +93,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 											</script>
 											<?php
 												if (isset($_POST['btn_cari'])) {
-													$and = "AND nama_petugas LIKE '%$_POST[cari]%' AND username != '$_SESSION[username]'";
+													$and = "AND first_name LIKE '%$_POST[cari]%' AND first_name != '$_SESSION[first_name]'";
 												}
 												else{
 													$and = "";

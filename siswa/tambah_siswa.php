@@ -1,5 +1,6 @@
-<?php session_start();
-if (empty($_SESSION['username']) && empty($_SESSION['level'])) {
+<?php 
+session_start();
+if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 	echo "<script>
 		alert('Anda harus login dahulu !');
 		window.location.href='../login.php';
@@ -9,7 +10,7 @@ if (empty($_SESSION['username']) && empty($_SESSION['level'])) {
 <!doctype html>
 <html lang="en">
 <head>
-	<title>Data Siswa | SIANI</title>
+	<title>Tambah Siswa | SIANI</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -37,7 +38,7 @@ if (empty($_SESSION['username']) && empty($_SESSION['level'])) {
 			include '../dashboard/navbar.php';
 			include '../dashboard/left_sidebar.php';
 
-			$nis_err = $first_name_err = $last_name_err = $kelas_err = $tgl_lahir_err = $alamat_err = $no_hp_err = $wali_murid_err = $no_wali_err = "";
+			$nis_err = $first_name_err = $last_name_err = $kelas_err = $tgl_lahir_err = $alamat_err = $no_hp_err = $wali_murid_err = $hp_wali_err = "";
 			$nis = $first_name = $last_name = $kelas = $tgl_lahir = $no_hp = $wali_murid = $hp_wali = "";
 			$alamat = "Alamat";
 
@@ -47,8 +48,8 @@ if (empty($_SESSION['username']) && empty($_SESSION['level'])) {
 				if (empty($_POST['nis'])) {
 					$nis_err = "* NIS harus diisi !";
 				}
-				elseif (!is_numeric($_POST['nohp'])) {
-					$nohp_err = "* NIS harus berupa angka !";
+				elseif (!is_numeric($_POST['NIS'])) {
+					$nis_err = "* NIS harus berupa angka !";
 				}
 				elseif ($ceknis > 0) {
 					$nis_err = "* NIS telah digunakan !";
@@ -118,17 +119,17 @@ if (empty($_SESSION['username']) && empty($_SESSION['level'])) {
 					$wali_murid = trim($_POST['wali_murid']);
 				}
 
-				if (empty($_POST['no_wali'])) {
-					$no_wali_err = "* No Hp Wali harus diisi !";
+				if (empty($_POST['hp_wali'])) {
+					$hp_wali_err = "* No Hp Wali harus diisi !";
 				}
-				elseif (!is_numeric($_POST['no_wali'])) {
-					$no_wali_err = "* No Hp Wali harus berupa angka !";
+				elseif (!is_numeric($_POST['hp_wali'])) {
+					$hp_wali_err = "* No Hp Wali harus berupa angka !";
 				}
 				else{
-					$no_wali = $_POST['no_wali'];
+					$hp_wali = $_POST['hp_wali'];
 				}
 
-				if ($nis_err == "" && $first_name_err == "" && $last_name_err == "" && $kelas_err == "" && $tgl_lahir_err == "" && $alamat_err == "" && $no_hp_err == "" && $wali_murid_err == "" && $no_wali == "") {
+				if ($nis_err == "" && $first_name_err == "" && $last_name_err == "" && $kelas_err == "" && $tgl_lahir_err == "" && $alamat_err == "" && $no_hp_err == "" && $wali_murid_err == "" && $hp_wali == "") {
 					mysqli_query($con, "INSERT INTO dokter (nm_dokter, gender, alamat, no_hp, no_ijin_praktek, id_poli) VALUE ('$nama', '$gender', '$alamat', '$nohp', '$nip', '$poli')");
 					mysqli_query($con, "INSERT INTO login (id_user, username, password, level, status) VALUE ((SELECT id_dokter FROM dokter WHERE nm_dokter = '$nama'), '$username', '$password', 'Dokter', 'Aktif') ");
 					echo "<script>
