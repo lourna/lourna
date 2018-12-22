@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 	echo "<script>
