@@ -114,11 +114,9 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 															<td>$val[kelas]</td>
 															<td>$val[level]</td>
 															<td>
-															<a href='edit_user.php?id_user=$val[id_user]' class='btn btn-primary btn-xs' title='Edit'><i class='fa fa-pencil'></i></a>
-															<a href='edit_user.php?id_user=$val[id_user]' class='btn btn-danger btn-xs' title='Edit'><i class='lnr lnr-trash'></i></a>
+																<a href='edit_user.php?id_user=$val[id_user]' class='btn btn-primary btn-xs' title='Edit'><i class='fa fa-pencil'></i></a>
+																<a href='delete_user.php?id_user=$val[id_user]' class='btn btn-danger btn-xs' title='Hapus'><i class='lnr lnr-trash'></i></a>
 															</td>
-
-														  </tr>
 
 														  </tr>
 													";

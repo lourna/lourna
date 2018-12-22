@@ -78,7 +78,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 												<th>Nama</th>
 												<th>No HP</th>
 												<th>Email</th>
-												
+
 												</tr>
 										</thead>
 										<tbody>
@@ -91,14 +91,14 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 											</script>
 											<?php
 												if (isset($_POST['btn_cari'])) {
-													$and = "AND users LIKE '%$_POST[cari]%' AND user_name != '$_SESSION[user_name]'";
+													$and = "AND guru LIKE '%$_POST[cari]%' AND guru != '$_SESSION[guru]'";
 												}
 												else{
 													$and = "";
 												}
-												$query = "SELECT guru.id_guru, guru, no_hp, email, level FROM users LEFT JOIN guru ON users.id_user=guru.id_guru LEFT JOIN hasil_nilai ON siswa.nis=hasil_nilai.nis LEFT JOIN section ON hasil_nilai.id_section=section.id_section LEFT JOIN kelas ON section.kd_kelas=kelas.kd_kelas LEFT JOIN jurusan ON kelas.id_jurusan=jurusan.id_jurusan";
+												$query = "SELECT guru.id_guru, guru, no_hp, email, level FROM guru";
 												$result = mysqli_query($con, $query);
-												$jml_user = mysqli_num_rows($result);
+												$jml_guru = mysqli_num_rows($result);
 												$no = 1;
 												// $edit = "<td><a href='edit_user.php?id_user=$val[id_user]' class='btn btn-primary btn-xs' title='Edit'></a></td>";
 
@@ -111,11 +111,8 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 															<td>$val[email]</td>
 															<td>
 															<a href='edit_guru.php?id_guru=$val[id_guru]' class='btn btn-primary btn-xs' title='Edit'><i class='fa fa-pencil'></i></a>
-															<a href='edit_guru.php?id_guru=$val[id_guru]' class='btn btn-danger btn-xs' title='Edit'><i class='lnr lnr-trash'></i></a>
+															<a href='hapus_guru.php?id_guru=$val[id_guru]' class='btn btn-danger btn-xs' title='Edit'><i class='lnr lnr-trash'></i></a>
 															</td>
-
-														  </tr>
-
 														  </tr>
 													";
 													$no++;
