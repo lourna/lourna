@@ -51,9 +51,6 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 				elseif (!is_numeric($_POST['NIS'])) {
 					$nis_err = "* NIS harus berupa angka !";
 				}
-				elseif ($ceknis > 0) {
-					$nis_err = "* NIS telah digunakan !";
-				}
 				else {
 					$nis = trim($_POST['nis']);
 				}
@@ -102,7 +99,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 				if (empty($_POST['no_hp'])) {
 					$no_hp_err = "* No Hp harus diisi !";
 				}
-				elseif (!is_numeric($_POST['no-hp'])) {
+				elseif (!is_numeric($_POST['no_hp'])) {
 					$no_hp_err = "* No Hp harus berupa angka !";
 				}
 				else{
@@ -130,8 +127,9 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 				}
 
 				if ($nis_err == "" && $first_name_err == "" && $last_name_err == "" && $kelas_err == "" && $tgl_lahir_err == "" && $alamat_err == "" && $no_hp_err == "" && $wali_murid_err == "" && $hp_wali == "") {
-					mysqli_query($con, "INSERT INTO dokter (nm_dokter, gender, alamat, no_hp, no_ijin_praktek, id_poli) VALUE ('$nama', '$gender', '$alamat', '$nohp', '$nip', '$poli')");
-					mysqli_query($con, "INSERT INTO login (id_user, username, password, level, status) VALUE ((SELECT id_dokter FROM dokter WHERE nm_dokter = '$nama'), '$username', '$password', 'Dokter', 'Aktif') ");
+					mysqli_query($con, "INSERT INTO siswa (nis, first_name, last_name, tgl_lahir, alamat, no_hp, wali_murid, hp_wali, id_user) VALUES ('$nis', '$first_name', '$last_name', '$tgl_lahir', '$alamat', '$no_hp', '$wali_murid', '$no_wali', '')");
+					mysqli_query($con, "INSERT INTO `kelas`(`kd_kelas`, `kelas`, `kd_mapel`, `id_jurusan`) VALUES ('', '', '', '$pilih_kelas')");
+
 					echo "<script>
 						alert('Data berhasil ditambah');
 						window.location.href='data_dokter.php';
@@ -216,7 +214,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 										<div class="row">
 											<div class="col-md-6">
 												<label for="">Hp Wali</label>
-												<input type="text" name="hp_wali" minlength="11" maxlength="13" class="form-control" placeholder="hp_wali" value="<?php echo(isset($_POST['hp_wali']) ? $_POST['hp_wali'] : $hp_wali ) ?>">
+												<input type="text" name="hp_wali" minlength="11" maxlength="13" class="form-control" placeholder="No. Hp Wali" value="<?php echo(isset($_POST['hp_wali']) ? $_POST['hp_wali'] : $hp_wali ) ?>">
 		 										<span class="text-danger"> <?php echo($hp_wali_err); ?></span>
 											</div>
 										</div>

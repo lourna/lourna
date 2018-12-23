@@ -98,23 +98,29 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 												else{
 													$and = "";
 												}
-												$query = "SELECT p.*, l.level, l.status FROM petugas p INNER JOIN login l ON p.id_petugas = l.id_user WHERE l.level != 'Dokter' $and ORDER BY p.id_petugas ASC";
+												$query = "SELECT  siswa.nis, first_name, last_name, kelas, tgl_lahir, alamat, no_hp, wali_murid, hp_wali FROM siswa LEFT JOIN hasil_nilai ON siswa.nis=hasil_nilai.nis LEFT JOIN section ON hasil_nilai.id_section=section.id_section LEFT JOIN kelas ON section.kd_kelas=kelas.kd_kelas LEFT JOIN jurusan ON kelas.id_jurusan=jurusan.id_jurusan";
 												$result = mysqli_query($con, $query);
 												$jml_siswa = mysqli_num_rows($result);
 												$no = 1;
+
 												foreach ($result as $val) {
-													$title = $val['status'] == 'Aktif' ? 'Non Aktifkan' : 'Aktifkan';
-													$btnclass = $val['status'] == 'Aktif' ? 'btn-success' : 'btn-danger';
-													$label = $val['status'] == 'Aktif' ? 'label label-success' : 'label label-danger';
+													// $title = $val['status'] == 'Aktif' ? 'Non Aktifkan' : 'Aktifkan';
+													// $btnclass = $val['status'] == 'Aktif' ? 'btn-success' : 'btn-danger';
+													// $label = $val['status'] == 'Aktif' ? 'label label-success' : 'label label-danger';
 													echo "<tr>
 															<td>$no</td>
-															<td>$val[nama_petugas]</td>
-															<td>$val[gender]</td>
+															<td>$val[nis]</td>
+															<td>$val[first_name] $val[last_name]</td>
+															<td>$val[kelas]</td>
+															<td>$val[tgl_lahir]</td>
 															<td>$val[alamat]</td>
 															<td>$val[no_hp]</td>
-															<td>$val[level]</td>
-															<td><span class='$label'>$val[status]</span></td>
-															<td><a onclick = 'return konfirm()' href='status_petugas.php?id_petugas=$val[id_petugas]&status=$val[status]' class='btn $btnclass btn-xs' title='$title'><i class='fa fa-power-off'></i></a></td>
+															<td>$val[wali_murid]</td>
+															<td>$val[hp_wali]</td>
+															<td>
+																<a href='edit_siswa.php?nis=$val[nis]' class='btn btn-primary btn-xs' title='Edit'><i class='fa fa-pencil'></i></a>
+																<a href='delete_siswa.php?nis=$val[nis]' class='btn btn-danger btn-xs' title='Hapus'><i class='lnr lnr-trash'></i></a>
+															</td>
 														  </tr>
 													";
 													$no++;
@@ -122,7 +128,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 													?>
 										</tbody>
 									</table>
-									<span class="text-default">Jumlah data : <?php echo $jml_dokter['jml_dokter'] ?></span>
+									<span class="text-default">Jumlah data : <?php echo($jml_siswa) ?></span>
 								</div>
 							</div>
 						</div>
