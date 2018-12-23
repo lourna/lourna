@@ -37,7 +37,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 			include '../dashboard/navbar.php';
 			include '../dashboard/left_sidebar.php';
 
-		$id_user_err = $user_name_err = $password_err = $level_err = $konfirmasi_err = "";
+		$user_name_err = $password_err = $level_err = $konfirmasi_err = "";
 		$user_name = $password = $nohp = $level = $konfirmasi = "";
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			//print_r($_POST);
@@ -61,7 +61,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 			}
 
 			if ($user_name_err == "" && $password_err == "" && $level_err == "") {
-				mysqli_query($con, "INSERT INTO users (id_user, user_name, password, level, status) VALUE ( '$user_name','$password', '$level', 'Aktif') ");
+				mysqli_query($con, "INSERT INTO users (id_user, user_name, password, level, status) VALUE ( '','$user_name','$password', '$level', 'Aktif') ");
 				echo "<script>
 						alert('Data berhasil ditambah');
 						window.location.href='data_user.php';

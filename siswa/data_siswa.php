@@ -100,7 +100,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 												}
 												$query = "SELECT p.*, l.level, l.status FROM petugas p INNER JOIN login l ON p.id_petugas = l.id_user WHERE l.level != 'Dokter' $and ORDER BY p.id_petugas ASC";
 												$result = mysqli_query($con, $query);
-												$jml_petugas = mysqli_num_rows($result);
+												$jml_siswa = mysqli_num_rows($result);
 												$no = 1;
 												foreach ($result as $val) {
 													$title = $val['status'] == 'Aktif' ? 'Non Aktifkan' : 'Aktifkan';

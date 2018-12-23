@@ -6,3 +6,8 @@
   padding: 15px 80px;
   /* background-color: #fff; */
 }
+.box{
+  background-color: blue;
+  height: 100px;
+  width: 200px;
+}
