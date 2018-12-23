@@ -36,63 +36,101 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 		<?php
 			include '../dashboard/navbar.php';
 			include '../dashboard/left_sidebar.php';
-			$query = "SELECT * FROM dokter WHERE id_dokter = '$_GET[id_dokter]'";
+			$query = "SELECT * FROM siswa WHERE nis = '$_GET[nis]'";
 			$result = mysqli_query($con, $query);
 			$val = mysqli_fetch_assoc($result);
-			$nama_err = $gender_err = $alamat_err = $nohp_err = $nip_err = $poli_err ="";
-			$nama = $gender = $nohp = $nip = $poli = "";
+			$nis_err = $first_name_err = $last_name_err = $kelas_err = $tgl_lahir_err = $alamat_err = $no_hp_err = $wali_murid_err = $hp_wali_err = "";
+			$nis = $first_name = $last_name = $kelas = $tgl_lahir = $no_hp = $wali_murid = $hp_wali = "";
 			$alamat = "Alamat";
 
 			if ($_SERVER["REQUEST_METHOD"] == "POST") {
-				if (empty($_POST['nama'])) {
-					$nama_err = "* Nama harus diisi !";
+				$quser = mysqli_query($con, "SELECT user_name FROM users WHERE user_name = '$_POST[user_name]'");
+				$cekuser = mysqli_num_rows($quser);
+				if (empty($_POST['nis'])) {
+					$nis_err = "* NIS harus diisi !";
 				}
-				else if (!preg_match("/^[.a-zA-Z ]*$/", $_POST['nama'])) {
-					$nama_err = "* Hanya dapat menginputkan huruf dan spasi !";
+				elseif (!is_numeric($_POST['nis'])) {
+					$nis_err = "* NIS harus berupa angka !";
+				}
+				elseif ($ceknis > 0) {
+					$nis_err = "* NIS telah digunakan !";
 				}
 				else {
-					$nama = trim($_POST['nama']);
+					$nis = trim($_POST['nis']);
 				}
 
-				if (empty($_POST['gender'])) {
-					$gender_err = "* Pilih gender !";
+				if (empty($_POST['first_name'])) {
+					$first_name_err = "* Nama Depan harus diisi !";
 				}
-				else{
-					$gender = $_POST['gender'];
+				else if (!preg_match("/^[.a-zA-Z ]*$/", $_POST['first_name'])) {
+					$first_name_err = "* Hanya dapat menginputkan huruf dan spasi !";
+				}
+				else {
+					$first_name = trim($_POST['first_name']);
+				}
+
+				if (empty($_POST['last_name'])) {
+					$last_name_err = "* Nama Belakang harus diisi !";
+				}
+				else if (!preg_match("/^[.a-zA-Z ]*$/", $_POST['last_name'])) {
+					$last_name_err = "* Hanya dapat menginputkan huruf dan spasi !";
+				}
+				else {
+					$last_name = trim($_POST['last_name']);
+				}
+
+				if (empty($_POST['kelas'])) {
+					$kelas_err = "* Pilih kelas !";
+				}
+				else {
+					$kelas = trim($_POST['kelas']);
+				}
+
+				if (empty($_POST['tgl_lahir'])) {
+					$tgl_lahir_err = "* Tanggal Lahir harus diisi !";
+				}
+				else {
+					$tgl_lahir = trim($_POST['tgl_lahir']);
 				}
 
 				if (empty($_POST['alamat']) || $_POST['alamat'] == "Alamat") {
 					$alamat_err = "* Alamat harus diisi !";
 				}
 				else{
-					$alamat = trim($_POST['alamat']);
+					$alamat = $_POST['alamat'];
 				}
 
-				if (empty($_POST['nohp'])) {
-					$nohp_err = "* No Hp harus diisi !";
+				if (empty($_POST['no_hp'])) {
+					$no_hp_err = "* No Hp harus diisi !";
 				}
-				elseif (!is_numeric($_POST['nohp'])) {
-					$nohp_err = "* No Hp harus berupa angka !";
+				elseif (!is_numeric($_POST['no_hp'])) {
+					$no_hp_err = "* No Hp harus berupa angka !";
 				}
 				else{
-					$nohp = trim($_POST['nohp']);
+					$no_hp = $_POST['no_hp'];
 				}
 
-				if (empty($_POST['nip'])) {
-					$nip_err = "* Nomor izin praktek harus diisi !";
+				if (empty($_POST['wali_murid'])) {
+					$wali_murid_err = "* Nama Wali harus diisi !";
 				}
-				else{
-					$nip = trim($_POST['nip']);
-				}
-
-				if (empty($_POST['poli'])) {
-					$poli_err = "* Pilih poli !";
+				else if (!preg_match("/^[.a-zA-Z ]*$/", $_POST['wali_murid'])) {
+					$wali_murid_err = "* Hanya dapat menginputkan huruf dan spasi !";
 				}
 				else {
-					$poli = trim($_POST['poli']);
+					$wali_murid = trim($_POST['wali_murid']);
 				}
 
-				if ($nama_err == "" && $gender_err == "" && $alamat_err == "" && $nohp_err == "" && $nip_err == "" && $poli_err == "") {
+				if (empty($_POST['hp_wali'])) {
+					$hp_wali_err = "* No Hp Wali harus diisi !";
+				}
+				elseif (!is_numeric($_POST['hp_wali'])) {
+					$hp_wali_err = "* No Hp Wali harus berupa angka !";
+				}
+				else{
+					$hp_wali = $_POST['hp_wali'];
+				}
+				
+				if ($nis_err == "" && $first_name_err == "" && $last_name_err == "" && $kelas_err == "" && $tgl_lahir_err == "" && $alamat_err == "" && $no_hp_err == "" && $wali_murid_err == "" && $hp_wali == "") {
 					mysqli_query($con, "UPDATE dokter SET nm_dokter = '$nama', gender = '$gender', alamat = '$alamat', no_hp = '$nohp', no_ijin_praktek = '$nip', id_poli = '$poli' WHERE id_dokter = '$_POST[id_dokter]' ");
 					echo "<script>
 						alert('Data berhasil diperbarui');

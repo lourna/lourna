@@ -104,9 +104,6 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 												$no = 1;
 
 												foreach ($result as $val) {
-													// $title = $val['status'] == 'Aktif' ? 'Non Aktifkan' : 'Aktifkan';
-													// $btnclass = $val['status'] == 'Aktif' ? 'btn-success' : 'btn-danger';
-													// $label = $val['status'] == 'Aktif' ? 'label label-success' : 'label label-danger';
 													echo "<tr>
 															<td>$no</td>
 															<td>$val[nis]</td>

@@ -131,7 +131,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 
 				if ($nis_err == "" && $first_name_err == "" && $last_name_err == "" && $kelas_err == "" && $tgl_lahir_err == "" && $alamat_err == "" && $no_hp_err == "" && $wali_murid_err == "" && $hp_wali == "") {
 					mysqli_query($con, "INSERT INTO siswa (nis, first_name, last_name, tgl_lahir, alamat, no_hp, wali_murid, hp_wali, id_user) VALUES ('$nis', '$first_name', '$last_name', '$tgl_lahir', '$alamat', '$no_hp', '$wali_murid', '$no_wali', '')");
-					mysqli_query($con, "INSERT INTO `kelas`(`kd_kelas`, `kelas`, `kd_mapel`, `id_jurusan`) VALUES ('', '', '', '$pilih_kelas')");
+					mysqli_query($con, "INSERT INTO kelas (kd_kelas, kelas, kd_mapel, id_jurusan) VALUE ((SELECT nis FROM siswa WHERE first_name = '$nama_depan'), 'kelas')");
 
 					echo "<script>
 						alert('Data berhasil ditambah');
