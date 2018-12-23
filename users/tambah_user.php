@@ -41,8 +41,6 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 		$user_name = $password = $nohp = $level = $konfirmasi = "";
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			//print_r($_POST);
-			$quser = mysqli_query($con, "SELECT user_name FROM users WHERE user_name = '$_POST[user_name]'");
-			$cekuser = mysqli_num_rows($quser);
 			if (empty($_POST['user_name'])) {
 				$user_name_err = "* Username harus diisi !";
 			}
@@ -60,7 +58,14 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 				$password = $_POST['password'];
 			}
 
-			if ($user_name_err == "" && $password_err == "" && $level_err == "") {
+			if (empty($_POST['level'])) {
+				$level_err = "* Pilih level !";
+			}
+			else{
+				$level = $_POST['level'];
+			}
+
+			if ($user_name_err == "" && $password_err == "" && $konfirmasi_err == "" && $level_err == "") {
 				mysqli_query($con, "INSERT INTO users (id_user, user_name, password, level, status) VALUE ( '','$user_name','$password', '$level', 'Aktif') ");
 				echo "<script>
 						alert('Data berhasil ditambah');

@@ -38,174 +38,122 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 			include '../dashboard/navbar.php';
 			include '../dashboard/left_sidebar.php';
 
-			$query = "SELECT * FROM petugas WHERE id_petugas = '$_GET[id_petugas]'";
+			$query = "SELECT * FROM users WHERE id_user = '$_GET[id_user]'";
 			$result = mysqli_query($con, $query);
 			$val = mysqli_fetch_assoc($result);
 
-			$nama_err = $gender_err = $alamat_err = $nohp_err = $username_err = "";
+			$user_name_err = $password_err = $level_err = $konfirmasi_err = "";
+			$user_name = $password = $nohp = $level = $konfirmasi = "";
 
 			if ($_SERVER["REQUEST_METHOD"] == "POST") {
-				if (empty($_POST['nama'])) {
-					$nama_err = "* Nama harus diisi !";
+				if (empty($_POST['user_name'])) {
+					$user_name_err = "* Username harus diisi !";
 				}
-				else if (!preg_match("/^[a-zA-Z ]*$/", $_POST['nama'])) {
-					$nama_err = "* Hanya dapat menginputkan huruf dan spasi !";
+				else if (!preg_match("/^[a-zA-Z ]*$/", $_POST['user_name'])) {
+					$user_name_err = "* Hanya dapat menginputkan huruf dan spasi !";
 				}
 				else {
-					$nama = trim($_POST['nama']);
+					$user_name = trim($_POST['user_name']);
 				}
 
-				if (empty($_POST['gender'])) {
-					$gender_err = "* Pilih gender !";
+				if (empty($_POST['password']) || $_POST['password'] == "password") {
+					$password_err = "* password harus diisi !";
 				}
 				else{
-					$gender = $_POST['gender'];
+					$password = trim($_POST['password']);
 				}
 
-				if (empty($_POST['alamat']) || $_POST['alamat'] == "Alamat") {
-					$alamat_err = "* Alamat harus diisi !";
+				if (empty($_POST['level'])) {
+					$level_err = "* Pilih level !";
 				}
 				else{
-					$alamat = $_POST['alamat'];
+					$level = trim($_POST['level']);
 				}
 
-				if (empty($_POST['nohp'])) {
-					$nohp_err = "* No Hp harus diisi !";
-				}
-				elseif (!is_numeric($_POST['nohp'])) {
-					$nohp_err = "* No Hp harus berupa angka !";
-				}
-				else{
-					$nohp = $_POST['nohp'];
-				}
-
-				if (empty($_POST['user'])) {
-					$username_err = "* Username harus diisi !";
-				}
-				else{
-					$user = $_POST['user'];
-				}
-
-				if ($nama_err == "" && $gender_err == "" && $alamat_err == "" && $nohp_err == "" && $username_err == "") {
-					mysqli_query($con, "UPDATE petugas SET nama_petugas = '$nama', gender = '$gender', alamat = '$alamat', no_hp = '$nohp', username = '$user' WHERE id_petugas = '$_POST[id_petugas]' ");
+				if ($user_name_err == "" && $password_err == "" && $konfirmasi_err == "" && $level_err == "") {
+					mysqli_query($con, "UPDATE users SET id_user = '', user_name = '$user_name', password = '$password', level = '$level', status = 'Aktif' WHERE id_user = '$_POST[id_user]' ");
 					echo "<script>
-							alert('Berhasil diperbarui');
-							history.go(-1);
-						  </script>";
-
+						alert('Data berhasil diperbarui');
+						window.location.href='data_user.php';
+					 	</script>";
 				}
 			}
+		?>
 
 
-		 ?>
-		 <div class="main">
-		 	<div class="main-content">
-		 		<div class="container-fluid">
-		 			<h3 class="page-title">Profil</h3>
-		 			<div class="row">
-		 				<div class="col-md-12">
-		 					<div class="panel">
-		 						<div class="col-md-6">
-		 							<div class="panel-heading">
-		 								<h3 class="panel-title">Profil Saya</h3>
-		 							</div>
-		 						</div>
-		 						<div class="col-md-6">
-		 							<div class="panel-heading">
-		 								<h3 class="panel-title">Edit Profil</h3>
-		 							</div>
-		 						</div>
+		<div class="main">
+		 <div class="main-content">
+			 <div class="container-fluid">
+				 <div class="panel">
+					 <div class="panel-heading">
+						 <h1 class="panel-title"><i class="lnr lnr-user"></i>&ensp;Edit Users</h1>
+					 </div>
+				 </div>
+				 <div class="row">
+					 <div class="col-md-12">
+						 <div class="panel">
+							 <div class="panel-body">
+								 <form method="POST" action="">
+									 	<input type="hidden" name="id_user" value="<?php echo $val['id_user']?>">
+									 <div class="row">
+										 <div class="col-md-6">
+											 <label for="">User Name</label>
+											 <input type="text" name="user_name" class="form-control" placeholder="User Name" value="<?php echo($val['user_name']) ?>">
+											 <span class="text-danger"> <?php echo($user_name_err); ?></span>
+										 </div>
 
-		 						<div class="panel-body">
-		 							<form method="POST" action="">
-		 								<input type="hidden" name="id_petugas" value="<?php echo($val['id_petugas']) ?>">
-		 								<div class="row">
-		 									<div class="col-md-6">
-		 										<div class="col-md-3"><span class="text-default">Nama  </span></div>
-		 										 <div class="col-md-6"><span>: &nbsp;<?php echo $val['nama_petugas'];?></span></div>
-		 									</div>
-		 									<div class="col-md-6">
-		 										<input type="text" name="nama" class="form-control" placeholder="Nama" value="<?php echo $val['nama_petugas'] ?>">
-		 										<span class="text-danger"> <?php echo($nama_err); ?></span>
-		 									</div>
-		 								</div>
-		 								<br>
-		 								<div class="row">
-		 									<div class="col-md-6">
-		 										<div class="col-md-3"><span class="text-default">Gender  </span></div>
-		 										 <div class="col-md-6"><span>: &nbsp;<?php echo $val['gender'];?></span></div>
-		 									</div>
-		 									<div class="col-md-6">
-		 										<div class="col-md-3">
-		 											<label class="fancy-radio">
-		 											<input type="radio" name="gender" class="form-control" value="Laki-laki" <?php echo($val['gender'] == "Laki-laki" ? 'checked' : '') ?> ><span><i></i>Laki-Laki</span>
-		 											</label>
-		 										</div>
-		 										<div class="col-md-3">
-		 											<label class="fancy-radio">
-		 											<input type="radio" name="gender" class="form-control" value="Perempuan" <?php echo($val['gender'] == "Perempuan" ? 'checked' : '') ?> ><span><i></i>Perempuan</span>
-		 											</label>
-		 										</div>
-		 										<span class="text-danger"> <?php echo($gender_err); ?></span>
-		 									</div>
-		 								</div>
-		 								<br>
-		 								<div class="row">
-		 									<div class="col-md-6">
-		 										<div class="col-md-3"><span class="text-default">Alamat  </span></div>
-		 										 <div class="col-md-6"><span>: &nbsp;<?php echo $val['alamat'];?></span></div>
-		 									</div>
-		 									<div class="col-md-6">
-		 										<textarea name="alamat" class="form-control" rows="2"><?php echo $val['alamat'] ?></textarea>
-		 										<span class="text-danger"> <?php echo($alamat_err); ?></span>
-		 									</div>
-		 								</div>
-		 								<br>
-		 								<div class="row">
-		 									<div class="col-md-6">
-		 										<div class="col-md-3"><span class="text-default">No Hp  </span></div>
-		 										 <div class="col-md-6"><span>: &nbsp;<?php echo $val['no_hp'];?></span></div>
-		 									</div>
-		 									<div class="col-md-6">
-		 										<input type="text" name="nohp" class="form-control" maxlength="13" placeholder="No Hp" value="<?php echo($val['no_hp'] ) ?>">
-		 										<span class="text-danger"> <?php echo($nohp_err); ?></span>
-		 									</div>
-		 								</div>
-		 								<br>
-		 								<div class="row">
-		 									<div class="col-md-6">
-		 										<div class="col-md-3"><span class="text-default">Username  </span></div>
-		 										 <div class="col-md-6"><span>: &nbsp;<?php echo $val['username'];?></span></div>
-		 									</div>
-		 									<div class="col-md-6">
-		 										<input type="text" class="form-control" placeholder="Username" name="user" value="<?php echo($val['username']) ?>">
-		 										<span class="text-danger"> <?php echo($username_err); ?></span>
-		 									</div>
-		 								</div>
-		 								<br>
-		 								<div class="row">
-		 									<div class="col-md-6"></div>
-		 									<div class="col-md-6">
-		 										<button type="submit" class="btn btn-primary"><i class="fa fa-check"></i>  Simpan</button> &nbsp; &nbsp;
-		 										<button type="reset" name="reset" class="btn btn-danger" onclick="history.go(-1);"><i class="fa fa-times-circle"></i> &nbsp;  Batal</button>
-		 									</div>
-		 								</div>
-		 							</form>
-		 						</div>
-		 					</div>
-		 				</div>
-		 			</div>
-		 		</div>
-		 	</div>
+									 </div>
+									 <br>
+									 <div class="row">
+										 <div class="col-md-6">
+											 <label for="">Password</label>
+											 <input type="Password" name="password" placeholder="Password" class="form-control" value="<?php echo($val['password']) ?>"> <?php echo($password_err); ?></span>
+										 </div>
+									 </div>
+									 <br>
+									 <div class="row">
+										 <div class="col-md-6">
+											 <label for="">Konfirmasi Password</label>
+											 <input type="password" name="konfirmasi" class="form-control" placeholder="Konfirmasi Password" value="<?php echo($val['password']) ?>">
+											 <span class="text-danger"> <?php echo($konfirmasi_err); ?></span>
+										 </div>
+									 </div>
+									 <br>
+									 <div class="row">
+										 <div class="col-md-6">
+											 <label for="">Level</label>
+											 <select class="form-control" name="level">
+												 <option value="">Pilih Level</option>
+												 <option value="Admin" <?php echo ($val['level'] == 'Admin' ? 'selected' : '') ?> > Admin </option>
+												 <option value="Guru" <?php echo ($val['level'] == 'Guru' ? 'selected' : '') ?> > Guru </option>
+												 <option value="Siswa" <?php echo ($val['level'] == 'Siswa' ? 'selected' : '') ?> > Siswa </option>
+
+											 </select>
+											 <span class="text-danger"> <?php echo($level_err); ?></span>
+										 </div>
+									 </div>
+									 <br>
+									 <div class="row">
+										 <div class="col-md-6">
+											 <button type="submit" name="button" class="btn btn-primary btn-sm"> <i class="fa fa-check"></i> Simpan </button> &nbsp; &nbsp;
+											 <button type="reset" name="reset" class="btn btn-danger btn-sm" onclick="history.go(-1)"> <i class="fa fa-times-circle"></i> &nbsp; Batal</button>
+										 </div>
+									 </div>
+								 </form>
+							 </div>
+						 </div>
+					 </div>
+				 </div>
+			 </div>
 		 </div>
-		 <div class="clearfix"></div>
-		<?php include '../dashboard/footer.php'; ?>
-	</div>
-	<script src="../assets/vendor/jquery/jquery.min.js"></script>
-	<script src="../assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="../assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-	<script src="../assets/scripts/klorofil-common.js"></script>
+		</div>
 
+		<div class="clearfix"></div>
+		<?php include '../dashboard/footer.php'; ?>
+		<script src="../assets/vendor/jquery/jquery.min.js"></script>
+		<script src="../assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script src="../assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+		<script src="../assets/scripts/klorofil-common.js"></script>
 </body>
 
 </html>
