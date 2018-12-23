@@ -48,8 +48,11 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 				if (empty($_POST['nis'])) {
 					$nis_err = "* NIS harus diisi !";
 				}
-				elseif (!is_numeric($_POST['NIS'])) {
+				elseif (!is_numeric($_POST['nis'])) {
 					$nis_err = "* NIS harus berupa angka !";
+				}
+				elseif ($ceknis > 0) {
+					$nis_err = "* NIS telah digunakan !";
 				}
 				else {
 					$nis = trim($_POST['nis']);
