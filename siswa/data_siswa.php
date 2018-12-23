@@ -122,6 +122,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 													?>
 										</tbody>
 									</table>
+									<span class="text-default">Jumlah data : <?php echo $jml_dokter['jml_dokter'] ?></span>
 								</div>
 							</div>
 						</div>
@@ -140,5 +141,6 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 	<script src="../assets/scripts/klorofil-common.js"></script>
 
 </body>
+
 
 </html>
