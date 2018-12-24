@@ -66,7 +66,7 @@
 								<div class="input-group">
 									<label for="signin-email" class="control-label sr-only">Username</label>
 									<span class="input-group-addon"><i class="fa fa-user"></i></span>
-									<input type="text" class="form-control" id="signin-email"  placeholder="Username" name="user" required>
+									<input type="text" class="form-control" id="signin-email" value="<?php echo $user ?>" placeholder="Username" name="user" required>
 
 								</div>
 								<br>
@@ -80,14 +80,14 @@
 							</form>
 						</div>
 					</div>
-
-					<!-- <div class="right">
+					<div class="right">
 						<div class="overlay"></div>
 						<div class="content text">
-							<h1 class="heading">SEHATIN</h1>
+							<h1 class="heading">SIANI</h1>
+							<p></p>
 						</div>
-					</div> -->
-					<!-- <div class="clearfix"></div> -->
+					</div>
+					<div class="clearfix"></div>
 				</div>
 			</div>
 		</div>

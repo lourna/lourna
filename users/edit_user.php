@@ -71,7 +71,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 				}
 
 				if ($user_name_err == "" && $password_err == "" && $konfirmasi_err == "" && $level_err == "") {
-					mysqli_query($con, "UPDATE users SET id_user = '', user_name = '$user_name', password = '$password', level = '$level', status = 'Aktif' WHERE id_user = '$_POST[id_user]' ");
+					mysqli_query($con, "UPDATE users SET  user_name = '$user_name', password = '$password', level = '$level', status = 'Aktif' WHERE id_user = '$_POST[id_user]' ");
 					echo "<script>
 						alert('Data berhasil diperbarui');
 						window.location.href='data_user.php';

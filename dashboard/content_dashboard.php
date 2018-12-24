@@ -17,32 +17,32 @@
 							<div class="row">
 								<div class="col-md-3">
 									<div class="metric">
-										<span class="icon"><i class="glyphicon glyphicon-user"></i></span>
+										<span class="icon"><i class="lnr lnr-users"></i></span>
 										<p>
 											<span class="number"> </span>
-											<span class="title">Petugas</span>
+											<span class="title">Users</span>
 										</p>
 									</div>
 								</div>
 								<div class="col-md-3">
 									<div class="metric">
-										<span class="icon"><i class="fa fa-wheelchair"></i></span>
+										<span class="icon"><i class="lnr lnr-user"></i></span>
 										<p>
 											<span class="number"></span>
-											<span class="title">Pasien</span>
+											<span class="title">Siswa</span>
 										</p>
 									</div>
 								</div>
 								<div class="col-md-3">
 									<div class="metric">
-										<span class="icon"><i class="fa fa-user-md"></i></span>
+										<span class="icon"><i class="lnr lnr-user"></i></span>
 										<p>
 											<span class="number"></span>
-											<span class="title">Dokter</span>
+											<span class="title">Guru</span>
 										</p>
 									</div>
 								</div>
-								<div class="col-md-3">
+								<!-- <div class="col-md-3">
 									<div class="metric">
 										<span class="icon"><i class="lnr lnr-users"></i></span>
 										<p>
@@ -50,7 +50,7 @@
 											<span class="title">Pasien Hari Ini</span>
 										</p>
 									</div>
-								</div>
+								</div> -->
 							</div>
 
 						</div>
