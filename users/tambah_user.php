@@ -121,7 +121,9 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 		 										<select class="form-control" name="level">
 			 										<option value="">Pilih Level</option>
 													<option value="Admin" <?php echo $level == "Admin" ? 'selected' : '' ?> >Admin</option>
+
 													<option value="Guru" <?php echo $level == "Guru" ? 'selected' : '' ?> >Guru</option>
+
 			 										<option value="Siswa" <?php echo $level == "Siswa" ? 'selected' : '' ?> >Siswa</option>
 		 										</select>
 												<span class="text-danger"> <?php echo($level_err); ?></span>
