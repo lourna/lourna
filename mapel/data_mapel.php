@@ -10,7 +10,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
  <!doctype html>
 <html lang="en">
 <head>
-	<title>Data User | SIANI</title>
+	<title>Data Mata Pelajaran | SIANI</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -43,7 +43,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 				<div class="container-fluid">
 					<div class="panel">
 						<div class="panel-heading">
-							<h3 class="panel-title"><i class="lnr lnr-user"></i>&ensp;Data User</h3>
+							<h3 class="panel-title"><i class="lnr lnr-user"></i>&ensp;Data Mata Pelajaran</h3>
 							<div class="col-md-2 col-md-offset-10">
 
 							</div>
@@ -56,7 +56,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 								<br>
 								<div class="row">
 									<div class="col-md-2">
-										<a href="tambah_user.php"><button type="button" class="btn btn-primary btn-sm" style="margin-left: 25px; margin-bottom: 10px;">Tambah</button></a>
+										<a href="tambah_mapel.php"><button type="button" class="btn btn-primary btn-sm" style="margin-left: 25px; margin-bottom: 10px;">Tambah</button></a>
 									</div>
 									 <div class="col-md-6"></div>
 									<div class="col-md-4">

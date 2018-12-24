@@ -9,7 +9,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 <!doctype html>
 <html lang="en">
 <head>
-	<title>Data User | SIANI</title>
+	<title>Data Mata Pelajaran | SIANI</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -37,39 +37,32 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 			include '../dashboard/navbar.php';
 			include '../dashboard/left_sidebar.php';
 
-		$user_name_err = $password_err = $level_err = $konfirmasi_err = "";
-		$user_name = $password = $nohp = $level = $konfirmasi = "";
+		$kd_mapel_err = $mapel_err = "";
+		$kd_mapel = $mapel = "";
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			//print_r($_POST);
-			if (empty($_POST['user_name'])) {
-				$user_name_err = "* Username harus diisi !";
+			if (empty($_POST['kd_mapel'])) {
+				$kd_mapel_err = "* harus diisi !";
 			}
-			else if (!preg_match("/^[a-zA-Z ]*$/", $_POST['user_name'])) {
-				$user_name_err = "* Hanya dapat menginputkan huruf dan spasi !";
+			else if (!preg_match("/^[a-zA-Z ]*$/", $_POST['kd_mapel'])) {
+				$kd_mapel_err = "* Hanya dapat menginputkan huruf dan spasi !";
 			}
 			else {
-				$user_name = trim($_POST['user_name']);
+				$kd_mapel = trim($_POST['kd_mapel']);
 			}
 
-					if (empty($_POST['password']) || $_POST['password'] == "password") {
-				$password_err = "* password harus diisi !";
+					if (empty($_POST['Mata pelajaran']) || $_POST['mapel'] == "mapel") {
+				$mapel_err = "* harus diisi !";
 			}
 			else{
-				$password = $_POST['password'];
+				$mapel = $_POST['mapel'];
 			}
 
-			if (empty($_POST['level'])) {
-				$level_err = "* Pilih level !";
-			}
-			else{
-				$level = $_POST['level'];
-			}
-
-			if ($user_name_err == "" && $password_err == "" && $konfirmasi_err == "" && $level_err == "") {
-				mysqli_query($con, "INSERT INTO users (id_user, user_name, password, level, status) VALUE ( '','$user_name','$password', '$level', 'Aktif') ");
+			if ($kd_mapel_err == "" && $mapel_err == "") {
+				mysqli_query($con, "INSERT INTO mapel (kd_mapel, mapel) VALUE ( '$kd_mapel','$mapel') ");
 				echo "<script>
 						alert('Data berhasil ditambah');
-						window.location.href='tambah_mapel.php';
+						window.location.href='data_mapel.php';
 					  </script>";
 
 			}
@@ -82,7 +75,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 		 		<div class="container-fluid">
 					<div class="panel">
 						<div class="panel-heading">
-							<h1 class="panel-title"><i class="lnr lnr-user"></i>&ensp;Tambah Mapel</h1>
+							<h1 class="panel-title"><i class="lnr lnr-user"></i>&ensp;Tambah mapel</h1>
 						</div>
 					</div>
 		 			<div class="row">
@@ -92,20 +85,21 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 		 							<form method="POST" action="">
 		 								<div class="row">
 		 									<div class="col-md-6">
-												<label for="">User Name</label>
-		 										<input type="text" name="user_name" class="form-control" placeholder="User Name" value="<?php echo(isset($_POST['user_name']) ? $_POST['user_name'] : $user_name ) ?>">
-		 										<span class="text-danger"> <?php echo($user_name_err); ?></span>
+												<label for="">Kode Mata Pelajaran</label>
+		 										<input type="text" name="kd_mapel" class="form-control" placeholder="Kode Mata Pelajaran" value="<?php echo(isset($_POST['kd_mapel']) ? $_POST['kd_mapel'] : $kd_mapel ) ?>">
+		 										<span class="text-danger"> <?php echo($kd_mapel_err); ?></span>
 		 									</div>
-
-		 								</div>
+                    </div>
+		 							</form>
 		 								<br>
 		 								<div class="row">
 											<div class="col-md-6">
-												<label for="">Password</label>
-												<input type="Password" name="password" placeholder="Password" class="form-control" value="<?php echo($password) ?>">
-												<span class="text-danger"> <?php echo($password_err); ?></span>
+												<label for="">Mata pelajaran</label>
+												<input type="mata pelajaran" name="mapel" placeholder="mata pelajaran" class="form-control" value="<?php echo($mapel) ?>">
+												<span class="text-danger"> <?php echo($mapel_err); ?></span>
 		 									</div>
 		 								</div>
+		 								<br>
 		 								<div class="row">
 		 									<div class="col-md-6">
 		 										<button type="submit" class="btn btn-primary"><i class="fa fa-plus-square"></i>  Tambah</button> &nbsp; &nbsp;
