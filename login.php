@@ -66,7 +66,7 @@
 								<div class="input-group">
 									<label for="signin-email" class="control-label sr-only">Username</label>
 									<span class="input-group-addon"><i class="fa fa-user"></i></span>
-									<input type="text" class="form-control" id="signin-email" value="<?php echo $user ?>" placeholder="Username" name="user" required>
+									<input type="text" class="form-control" id="signin-email" value="" placeholder="Username" name="user" required>
 
 								</div>
 								<br>
