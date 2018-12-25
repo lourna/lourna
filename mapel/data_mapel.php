@@ -89,7 +89,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 											</script>
 											<?php
 												if (isset($_POST['btn_cari'])) {
-													$and = "AND users LIKE '%$_POST[cari]%' AND user_name != '$_SESSION[user_name]'";
+													$and = "AND mapel LIKE '%$_POST[cari]%' AND kd_mapel != '$_SESSION[user_name]'";
 												}
 												else{
 													$and = "";
@@ -106,7 +106,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 															<td>$val[kd_mapel]</td>
 															<td>$val[mapel]</td>
 															<td>
-																<a href='edit_user.php?id_user=$val[kd_mapel]' class='btn btn-primary btn-xs' title='Edit'><i class='fa fa-pencil'></i></a>
+																<a href='edit_mapel.php?kd_mapel=$val[kd_mapel]' class='btn btn-primary btn-xs' title='Edit'><i class='fa fa-pencil'></i></a>
 																<a href='delete_user.php?id_user=$val[kd_mapel]' class='btn btn-danger btn-xs' title='Hapus'><i class='lnr lnr-trash'></i></a>
 															</td>
 
