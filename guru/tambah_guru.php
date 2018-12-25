@@ -75,20 +75,11 @@ if (empty($_SESSION['username']) && empty($_SESSION['level'])) {
 				else{
 					$no_hp = $_POST['no_hp'];
 				}
-				/*if (empty($_POST['no_hp'])) {
-					$no_hp_err = "* No Hp harus diisi !";
-				}
-				elseif (!is_numeric($_POST['no_hp'])) {
-					$no_hp_err = "* No Hp harus berupa angka !";
-				}
-				else{
-					$no_hp = $_POST['no_hp'];
-				}*/
 
 
 				if ($id_guru_err == "" && $nama_guru_err == "" && $no_hp_err == "" && $email_err == "") {
 					mysqli_query($con, "INSERT INTO guru (id_guru, nama_guru, no_hp, email) VALUE ('$id', '$nama', '$nohp', '$email')");
-					mysqli_query($con, "INSERT INTO login (id_user, username, password, level) VALUE ((SELECT id_guru FROM guru WHERE nama_guru = '$nama'), '$username', '$password', 'Guru') ");
+					mysqli_query($con, "INSERT INTO login (id_guru, username, password, level) VALUE (SELECT id_guru FROM guru WHERE nama_guru = '$nama'), '$username', '$password', 'Guru' ");
 					echo "<script>
 						alert('Data berhasil ditambah');
 						window.location.href='data_guru.php';
@@ -133,7 +124,7 @@ if (empty($_SESSION['username']) && empty($_SESSION['level'])) {
 										<div class="row">
 										  	<div class="col-md-6">
 												<label for="">Email</label>
-													<input type="text" name="tgl_lahir" minlength="10" maxlength="10" class="form-control" placeholder="Email" value="<?php echo(isset($_POST['email']) ? $_POST['email'] : $email ) ?>">
+													<input type="text" name="email" minlength="10" maxlength="30" class="form-control" placeholder="Email" value="<?php echo(isset($_POST['email']) ? $_POST['email'] : $email ) ?>">
 		 												<span class="text-danger"> <?php echo($email_err); ?></span>
 											<br>
 										<div class="row">
