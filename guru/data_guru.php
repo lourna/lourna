@@ -78,7 +78,6 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 												<th>Nama</th>
 												<th>No HP</th>
 												<th>Email</th>
-												<th>Action</th>
 
 												</tr>
 										</thead>
@@ -92,12 +91,12 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 											</script>
 											<?php
 												if (isset($_POST['btn_cari'])) {
-													$and = "AND nama_guru LIKE '%$_POST[cari]%' AND nama_guru != '$_SESSION[nama_guru]'";
+													$and = "AND guru LIKE '%$_POST[cari]%' AND guru != '$_SESSION[guru]'";
 												}
 												else{
 													$and = "";
 												}
-												$query = "SELECT * from guru";
+												$query = "SELECT * FROM guru";
 												$result = mysqli_query($con, $query);
 												$jml_guru = mysqli_num_rows($result);
 												$no = 1;
@@ -107,7 +106,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 													echo "<tr>
 															<td>$no</td>
 															<td>$val[id_guru]</td>
-															<td>$val[nama_guru]</td>
+															<td>$val[guru]</td>
 															<td>$val[no_hp]</td>
 															<td>$val[email]</td>
 															<td>

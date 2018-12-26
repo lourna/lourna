@@ -158,7 +158,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
  					 <div class="col-md-12">
  						 <div class="panel">
  							 <div class="row">
- 								<div class="panel-body">
+ 							<div class="panel-body">
 									<form method="POST" action="">
 										<div class="row">
 											<div class="col-md-6">
@@ -184,17 +184,17 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 											   		<select class="form-control" name="kelas">
 														<option value="">-- Pilih Kelas --</option>
 														<?php
-															$qkelas = mysqli_query($con, "SELECT * FROM kelas");
+															$qkelas = mysqli_query($con, "SELECT * FROM `kelas` left join jurusan on kelas.id_jurusan=jurusan.id_jurusan");
 															while ($val = mysqli_fetch_assoc($qkelas)) {
 																?>
-														<option value="Kelas" <?php echo $kelas == "$val[kd_kelas]" ? 'selected' : '' ?> > <?php echo "$val[kelas]";  ?> </option>
+														<option name="kelas" value="<?php echo $kelas == "$val[kd_kelas]" ? 'selected' : '' ?>" > <?php echo "$val[kelas]"." $val[jurusan]"." $val[kd_mapel]";  ?> </option>
 													<?php } ?>
-															<!-- <?php
+															<!--?php
 																$qkelas = mysqli_query($con, "SELECT * FROM kelas");
 																while ($val = mysqli_fetch_assoc($qkelas)) {
 																echo "<option value = '$val[id_kelas]' isset($_POST[kelas]) && $_POST[kelas] == $val[id_kelas] ? 'selected' : ''> $val[kelas] </option>";
 																}
-															?> -->
+															?-->
 											    	</select>
 													<span class="text-danger"><?php echo ($kelas_err) ?></span>
 											 </div>
@@ -236,8 +236,8 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 										<br>
 										<div class="row">
 		 									<div class="col-md-6">
-		 										<button type="submit" class="btn btn-primary"><i class="fa fa-plus-square"></i> &nbsp; Tambah</button>
-		 										<button type="reset" name="reset" class="btn btn-danger" onclick="history.go(-1);"><i class="fa fa-times-circle"></i> &nbsp; Batal</button>
+		 										<button type="submit" class="btn btn-primary"><i class="fa fa-plus-square"></i>  Tambah</button> &nbsp; &nbsp;
+		 										<button type="reset" name="reset" class="btn btn-danger" onclick="history.go(-1);"><i class="fa fa-times-circle"></i> &nbsp;  Batal</button>
 		 									</div>
 		 								</div>
 									</form>

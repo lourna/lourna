@@ -35,62 +35,68 @@ if (empty($_SESSION['username']) && empty($_SESSION['level'])) {
 		<?php
 			include '../dashboard/navbar.php';
 			include '../dashboard/left_sidebar.php';
-			$id_guru_err = $nama_guru_err = $no_hp_err = $email_err = "";
-			$id_guru = $nama_guru = $no_hp = $email = "";
+			$query = "SELECT * FROM dokter WHERE id_dokter = '$_GET[id_dokter]'";
+			$result = mysqli_query($con, $query);
+			$val = mysqli_fetch_assoc($result);
+			$nama_err = $gender_err = $alamat_err = $nohp_err = $nip_err = $poli_err ="";
+			$nama = $gender = $nohp = $nip = $poli = "";
+			$alamat = "Alamat";
 
 			if ($_SERVER["REQUEST_METHOD"] == "POST") {
-				$quser = mysqli_query($con, "SELECT nama_guru FROM guru WHERE nama_guru = '$_POST[nama_guru]'");
-				$cekuser = mysqli_num_rows($quser);
-				if (empty($_POST['id_guru'])) {
-					$id_guru_err = "* ID harus diisi !";
+				if (empty($_POST['nama'])) {
+					$nama_err = "* Nama harus diisi !";
 				}
-				elseif (!is_numeric($_POST['no_hp'])) {
-					$no_hp_err = "* ID harus berupa angka !";
-				}
-				elseif ($cekid_guru > 0) {
-					$id_guru_err = "* ID telah digunakan !";
+				else if (!preg_match("/^[.a-zA-Z ]*$/", $_POST['nama'])) {
+					$nama_err = "* Hanya dapat menginputkan huruf dan spasi !";
 				}
 				else {
-					$id_guru = trim($_POST['id_guru']);
+					$nama = trim($_POST['nama']);
 				}
 
-				if (empty($_POST['nama_guru'])) {
-					$nama_guru_err = "* Nama harus diisi !";
+				if (empty($_POST['gender'])) {
+					$gender_err = "* Pilih gender !";
 				}
-				else if (!preg_match("/^[.a-zA-Z ]*$/", $_POST['nama_guru'])) {
-					$nama_guru_rr = "* Hanya dapat menginputkan huruf dan spasi !";
+				else{
+					$gender = $_POST['gender'];
+				}
+
+				if (empty($_POST['alamat']) || $_POST['alamat'] == "Alamat") {
+					$alamat_err = "* Alamat harus diisi !";
+				}
+				else{
+					$alamat = trim($_POST['alamat']);
+				}
+
+				if (empty($_POST['nohp'])) {
+					$nohp_err = "* No Hp harus diisi !";
+				}
+				elseif (!is_numeric($_POST['nohp'])) {
+					$nohp_err = "* No Hp harus berupa angka !";
+				}
+				else{
+					$nohp = trim($_POST['nohp']);
+				}
+
+				if (empty($_POST['nip'])) {
+					$nip_err = "* Nomor izin praktek harus diisi !";
+				}
+				else{
+					$nip = trim($_POST['nip']);
+				}
+
+				if (empty($_POST['poli'])) {
+					$poli_err = "* Pilih poli !";
 				}
 				else {
-					$nama_guru = trim($_POST['nama_guru']);
+					$poli = trim($_POST['poli']);
 				}
 
-				if (empty($_POST['no_hp'])) {
-					$no_hp_err = "* No Hp harus diisi !";
-				}
-				elseif (!is_numeric($_POST['no_hp'])) {
-					$no_hp_err = "* No Hp harus berupa angka !";
-				}
-				else{
-					$no_hp = $_POST['no_hp'];
-				}
-				/*if (empty($_POST['no_hp'])) {
-					$no_hp_err = "* No Hp harus diisi !";
-				}
-				elseif (!is_numeric($_POST['no_hp'])) {
-					$no_hp_err = "* No Hp harus berupa angka !";
-				}
-				else{
-					$no_hp = $_POST['no_hp'];
-				}*/
-
-
-				if ($id_guru_err == "" && $nama_guru_err == "" && $no_hp_err == "" && $email_err == "") {
-					mysqli_query($con, "INSERT INTO guru (id_guru, nama_guru, no_hp, email) VALUE ('$id', '$nama', '$nohp', '$email')");
-					mysqli_query($con, "INSERT INTO login (id_user, username, password, level) VALUE ((SELECT id_guru FROM guru WHERE nama_guru = '$nama'), '$username', '$password', 'Guru') ");
+				if ($nama_err == "" && $gender_err == "" && $alamat_err == "" && $nohp_err == "" && $nip_err == "" && $poli_err == "") {
+					mysqli_query($con, "UPDATE dokter SET nm_dokter = '$nama', gender = '$gender', alamat = '$alamat', no_hp = '$nohp', no_ijin_praktek = '$nip', id_poli = '$poli' WHERE id_dokter = '$_POST[id_dokter]' ");
 					echo "<script>
-						alert('Data berhasil ditambah');
-						window.location.href='data_guru.php';
-					  </script>";
+						alert('Data berhasil diperbarui');
+						window.location.href='data_dokter.php';
+					 	</script>";
 				}
 			}
 		?>

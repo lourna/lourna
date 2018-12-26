@@ -91,7 +91,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 											</script>
 											<?php
 
-											
+
 												$query = "SELECT kelas, kd_kelas ,jurusan, jurusan.id_jurusan FROM kelas INNER JOIN jurusan ON kelas.kd_kelas=kelas.kd_kelas";
 												$result = mysqli_query($con, $query);
 												$jml_user = mysqli_num_rows($result);
@@ -102,12 +102,12 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 													echo "<tr>
 															<td>$no</td>
 															<td>$val[kd_kelas]</td>
-															<td>$val[kelas]</td> 
+															<td>$val[kelas]</td>
 															<td>$val[id_jurusan]</td>
 															<td>$val[jurusan]</td>
-														
+
 															<td>
-																
+
 															</td>
 
 														  </tr>
