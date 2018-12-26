@@ -96,14 +96,13 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 													$where = "WHERE first_name LIKE '%$_POST[cari]%'";
 												}
 												else{
-													$where = "";
+													$and = "";
 												}
-												$query = "SELECT d.*, l.status, p.poli FROM dokter d INNER JOIN login l ON l.id_user = d.id_dokter INNER JOIN poli p ON d.id_poli = p.id_poli $where ORDER BY nm_dokter ASC";
-												$jml = "SELECT COUNT(*) AS jml_dokter FROM dokter";
-												$r = mysqli_query($con, $jml);
-												$jml_dokter = mysqli_fetch_assoc($r);
+												$query = "SELECT siswa.nis, first_name, last_name, kelas, tgl_lahir, alamat, no_hp, wali_murid, hp_wali FROM siswa LEFT JOIN hasil_nilai ON siswa.nis=hasil_nilai.nis LEFT JOIN section ON hasil_nilai.id_section= section.id_section LEFT JOIN kelas ON section.kd_kelas=kelas.kd_kelas LEFT JOIN jurusan ON kelas.id_jurusan=jurusan.id_jurusan";
 												$result = mysqli_query($con, $query);
+												$jml_siswa = mysqli_num_rows($result);
 												$no = 1;
+
 
 												foreach ($result as $val) {
 													echo "<tr>
