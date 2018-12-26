@@ -96,7 +96,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 												else{
 													$and = "";
 												}
-												$query = "SELECT * from guru";
+												$query = "SELECT * FROM guru";
 												$result = mysqli_query($con, $query);
 												$jml_guru = mysqli_num_rows($result);
 												$no = 1;

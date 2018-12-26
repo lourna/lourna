@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 21, 2018 at 05:26 AM
+-- Generation Time: Dec 26, 2018 at 04:20 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -34,6 +34,21 @@ BEGIN
 SELECT first_name, last_name FROM Actor WHERE first_name LIKE CONCAT('%',name,'%') OR last_name LIKE CONCAT('%',name,'%');
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `siswa`()
+begin
+select*from siswa;
+end$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `user`()
+begin
+select users.id_user, first_name, last_name, user_name, password, kelas, jurusan, level FROM users LEFT JOIN siswa ON users.id_user=siswa.id_user LEFT JOIN kelas ON siswa.kd_kelas=kelas.kd_kelas LEFT JOIN jurusan ON kelas.id_jurusan=jurusan.id_jurusan;  
+end$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `users`()
+begin
+SELECT users.id_user, first_name, last_name, user_name, password, kelas, jurusan, level FROM users LEFT JOIN siswa ON users.id_user=siswa.id_user LEFT JOIN hasil_nilai ON siswa.nis=hasil_nilai.nis LEFT JOIN section ON hasil_nilai.id_section=section.id_section LEFT JOIN kelas ON section.kd_kelas=kelas.kd_kelas LEFT JOIN jurusan ON kelas.id_jurusan=jurusan.id_jurusan;
+end$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -44,21 +59,11 @@ DELIMITER ;
 
 CREATE TABLE IF NOT EXISTS `guru` (
   `id_guru` int(10) NOT NULL,
-  `guru` varchar(50) NOT NULL,
+  `nama_guru` varchar(50) NOT NULL,
   `no_hp` varchar(15) NOT NULL,
-  `email` varchar(30) NOT NULL
+  `email` varchar(30) NOT NULL,
+  `id_user` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `guru`
---
-
-INSERT INTO `guru` (`id_guru`, `guru`, `no_hp`, `email`) VALUES
-(101, 'Siswanto', '089678455667', 'siswanto@yahoo.com'),
-(102, 'Siswandi', '087667832324', 'siswandi@yahoo.com'),
-(103, 'Davidmaulana', '082134545679', 'davidmaulana@yahoo.com'),
-(104, 'Firdausillah', '087667345423', 'firdausillah@yahoo.com'),
-(105, 'Ibrahim', '087987433215', 'ibrahim@yahoo.com');
 
 -- --------------------------------------------------------
 
@@ -68,19 +73,13 @@ INSERT INTO `guru` (`id_guru`, `guru`, `no_hp`, `email`) VALUES
 
 CREATE TABLE IF NOT EXISTS `hasil_nilai` (
 `id_hasilnilai` int(10) NOT NULL,
-  `id_section` int(10) NOT NULL,
   `kd_kompetensi` varchar(10) NOT NULL,
   `nis` int(10) NOT NULL,
-  `nilai` varchar(3) NOT NULL
+  `nilai` double NOT NULL,
+  `kd_mapel` varchar(10) NOT NULL,
+  `id_guru` int(10) NOT NULL,
+  `id_thn_akad` int(10) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=615 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `hasil_nilai`
---
-
-INSERT INTO `hasil_nilai` (`id_hasilnilai`, `id_section`, `kd_kompetensi`, `nis`, `nilai`) VALUES
-(613, 4, '103', 6833, '87'),
-(614, 5, '104', 6834, '90');
 
 -- --------------------------------------------------------
 
@@ -98,10 +97,9 @@ CREATE TABLE IF NOT EXISTS `jurusan` (
 --
 
 INSERT INTO `jurusan` (`id_jurusan`, `jurusan`) VALUES
-(3, 'AGAMA'),
-(1001, 'IPA'),
-(1002, 'IPS'),
-(1003, 'AGAMA');
+(1, 'IPA'),
+(2, 'IPS'),
+(3, 'AGAMA');
 
 -- --------------------------------------------------------
 
@@ -112,7 +110,7 @@ INSERT INTO `jurusan` (`id_jurusan`, `jurusan`) VALUES
 CREATE TABLE IF NOT EXISTS `kelas` (
   `kd_kelas` varchar(10) NOT NULL,
   `kelas` varchar(20) NOT NULL,
-  `kd_mapel` varchar(10) NOT NULL,
+  `golongan` varchar(4) NOT NULL,
   `id_jurusan` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -120,12 +118,11 @@ CREATE TABLE IF NOT EXISTS `kelas` (
 -- Dumping data for table `kelas`
 --
 
-INSERT INTO `kelas` (`kd_kelas`, `kelas`, `kd_mapel`, `id_jurusan`) VALUES
-('201', 'X', '01', 1001),
-('202', 'XI', '02', 1001),
-('203', 'X', '03', 1002),
-('204', 'XI', '04', 1002),
-('205', 'X', '05', 1003);
+INSERT INTO `kelas` (`kd_kelas`, `kelas`, `golongan`, `id_jurusan`) VALUES
+('X1', 'X', '1', 1),
+('X2', 'X', '2', 1),
+('XI1', 'XI', '1', 3),
+('XI2', 'XI', '2', 2);
 
 -- --------------------------------------------------------
 
@@ -137,17 +134,6 @@ CREATE TABLE IF NOT EXISTS `mapel` (
   `kd_mapel` varchar(10) NOT NULL,
   `mapel` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `mapel`
---
-
-INSERT INTO `mapel` (`kd_mapel`, `mapel`) VALUES
-('01', 'IPA'),
-('02', 'IPS'),
-('03', 'Matematika'),
-('04', 'Bahasa Indonesia'),
-('05', 'Bahasa Inggris');
 
 -- --------------------------------------------------------
 
@@ -162,43 +148,6 @@ CREATE TABLE IF NOT EXISTS `nilai_kompetensi` (
   `pengetahuan` text NOT NULL,
   `keterampilan` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `nilai_kompetensi`
---
-
-INSERT INTO `nilai_kompetensi` (`kd_kompetensi`, `spiritual`, `sosial`, `pengetahuan`, `keterampilan`) VALUES
-('101', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'cccccccccccccccccccccccccccccccccccccccccc', 'dddddddddddddddddddddddddddddddddddddddddd'),
-('102', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'cccccccccccccccccccccccccccccccccccccccccc', 'dddddddddddddddddddddddddddddddddddddddddd'),
-('103', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'cccccccccccccccccccccccccccccccccccccccccc', 'dddddddddddddddddddddddddddddddddddddddddd'),
-('104', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'cccccccccccccccccccccccccccccccccccccccccc', 'dddddddddddddddddddddddddddddddddddddddddd'),
-('105', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'cccccccccccccccccccccccccccccccccccccccccc', 'dddddddddddddddddddddddddddddddddddddddddd');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `section`
---
-
-CREATE TABLE IF NOT EXISTS `section` (
-`id_section` int(10) NOT NULL,
-  `kd_kelas` varchar(10) NOT NULL,
-  `kd_mapel` varchar(10) NOT NULL,
-  `id_guru` int(10) NOT NULL,
-  `id_thn_akad` int(10) NOT NULL,
-  `kd_kompetensi` varchar(10) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `section`
---
-
-INSERT INTO `section` (`id_section`, `kd_kelas`, `kd_mapel`, `id_guru`, `id_thn_akad`, `kd_kompetensi`) VALUES
-(2, '201', '01', 101, 1, ''),
-(3, '202', '02', 102, 2, ''),
-(4, '203', '03', 103, 3, ''),
-(5, '204', '04', 104, 4, ''),
-(6, '205', '05', 105, 5, '');
 
 -- --------------------------------------------------------
 
@@ -215,17 +164,22 @@ CREATE TABLE IF NOT EXISTS `siswa` (
   `no_hp` varchar(15) NOT NULL,
   `wali_murid` varchar(50) NOT NULL,
   `hp_wali` varchar(15) NOT NULL,
-  `id_user` int(4) NOT NULL
+  `id_user` int(10) NOT NULL,
+  `kd_kelas` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `siswa`
+-- Triggers `siswa`
 --
-
-INSERT INTO `siswa` (`nis`, `first_name`, `last_name`, `tgl_lahir`, `alamat`, `no_hp`, `wali_murid`, `hp_wali`, `id_user`) VALUES
-(1, 'a', 'a', '2018-12-05', 'a', 'a', 'a', 'a', 17),
-(6833, 'Lourna', 'Fitaloka', '2018-11-06', 'Tanggul', '089437287812', 'Ambarwati', '087438292312', 4),
-(6834, 'Fellia', 'Nurlailatul', '2018-11-04', 'Tulungagung', '087884913923', 'Ramdan', '088784381321', 5);
+DELIMITER //
+CREATE TRIGGER `user_siswa` BEFORE INSERT ON `siswa`
+ FOR EACH ROW begin
+insert into users set user_name = siswa.nis;
+insert into users set password = siswa.nis;
+insert into users set level = 'siswa';
+end
+//
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -262,19 +216,16 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(20) NOT NULL,
   `level` enum('Admin','Guru','Siswa') NOT NULL,
   `status` enum('Aktif','Nonaktif') NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id_user`, `user_name`, `password`, `level`, `status`) VALUES
-(5, 'fellia', '04', 'Siswa', 'Aktif'),
-(9, 'admin', 'admin', 'Admin', 'Aktif'),
-(11, 'ona', ' ona', 'Siswa', 'Aktif'),
-(12, 'firdaus', ' firdaus', 'Admin', 'Aktif'),
-(17, 'h', ' h', 'Admin', 'Aktif'),
-(37, 'l', ' l', 'Siswa', 'Aktif');
+(19, 'admin', 'admin', 'Admin', 'Aktif'),
+(20, 'admin', 'admin', 'Admin', 'Aktif'),
+(21, 'fellia', '01', 'Siswa', 'Aktif');
 
 --
 -- Indexes for dumped tables
@@ -284,13 +235,13 @@ INSERT INTO `users` (`id_user`, `user_name`, `password`, `level`, `status`) VALU
 -- Indexes for table `guru`
 --
 ALTER TABLE `guru`
- ADD PRIMARY KEY (`id_guru`);
+ ADD PRIMARY KEY (`id_guru`), ADD KEY `id_user` (`id_user`);
 
 --
 -- Indexes for table `hasil_nilai`
 --
 ALTER TABLE `hasil_nilai`
- ADD PRIMARY KEY (`id_hasilnilai`), ADD KEY `id_section` (`id_section`), ADD KEY `nis` (`nis`), ADD KEY `nilai` (`nilai`), ADD KEY `kd_kompetensi` (`kd_kompetensi`);
+ ADD PRIMARY KEY (`id_hasilnilai`), ADD KEY `nis` (`nis`), ADD KEY `nilai` (`nilai`), ADD KEY `kd_kompetensi` (`kd_kompetensi`), ADD KEY `kd_mapel` (`kd_mapel`), ADD KEY `id_guru` (`id_guru`), ADD KEY `id_thn_akad` (`id_thn_akad`);
 
 --
 -- Indexes for table `jurusan`
@@ -302,7 +253,7 @@ ALTER TABLE `jurusan`
 -- Indexes for table `kelas`
 --
 ALTER TABLE `kelas`
- ADD PRIMARY KEY (`kd_kelas`), ADD KEY `kd_mapel` (`kd_mapel`,`id_jurusan`), ADD KEY `id_jurusan` (`id_jurusan`);
+ ADD PRIMARY KEY (`kd_kelas`), ADD KEY `kd_mapel` (`id_jurusan`), ADD KEY `id_jurusan` (`id_jurusan`);
 
 --
 -- Indexes for table `mapel`
@@ -317,16 +268,10 @@ ALTER TABLE `nilai_kompetensi`
  ADD PRIMARY KEY (`kd_kompetensi`);
 
 --
--- Indexes for table `section`
---
-ALTER TABLE `section`
- ADD PRIMARY KEY (`id_section`), ADD KEY `kd_kelas` (`kd_kelas`), ADD KEY `kd_mapel` (`kd_mapel`), ADD KEY `id_guru` (`id_guru`), ADD KEY `id_thn_akad` (`id_thn_akad`), ADD KEY `kd_kompetensi` (`kd_kompetensi`);
-
---
 -- Indexes for table `siswa`
 --
 ALTER TABLE `siswa`
- ADD PRIMARY KEY (`nis`), ADD KEY `hp_wali` (`hp_wali`,`id_user`), ADD KEY `id_jurusan` (`id_user`), ADD KEY `id_user` (`id_user`);
+ ADD PRIMARY KEY (`nis`), ADD KEY `hp_wali` (`hp_wali`,`id_user`), ADD KEY `id_jurusan` (`id_user`), ADD KEY `id_user` (`id_user`), ADD KEY `kd_kelas` (`kd_kelas`);
 
 --
 -- Indexes for table `thn_akad`
@@ -350,15 +295,10 @@ ALTER TABLE `users`
 ALTER TABLE `hasil_nilai`
 MODIFY `id_hasilnilai` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=615;
 --
--- AUTO_INCREMENT for table `section`
---
-ALTER TABLE `section`
-MODIFY `id_section` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
---
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-MODIFY `id_user` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=38;
+MODIFY `id_user` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
 --
 -- Constraints for dumped tables
 --
@@ -367,9 +307,11 @@ MODIFY `id_user` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=38;
 -- Constraints for table `hasil_nilai`
 --
 ALTER TABLE `hasil_nilai`
-ADD CONSTRAINT `hasil_nilai_ibfk_1` FOREIGN KEY (`id_section`) REFERENCES `section` (`id_section`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `hasil_nilai_ibfk_1` FOREIGN KEY (`id_guru`) REFERENCES `guru` (`id_guru`) ON DELETE CASCADE ON UPDATE CASCADE,
 ADD CONSTRAINT `hasil_nilai_ibfk_2` FOREIGN KEY (`nis`) REFERENCES `siswa` (`nis`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `hasil_nilai_ibfk_3` FOREIGN KEY (`kd_kompetensi`) REFERENCES `nilai_kompetensi` (`kd_kompetensi`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `hasil_nilai_ibfk_3` FOREIGN KEY (`id_thn_akad`) REFERENCES `thn_akad` (`id_thn_akad`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `hasil_nilai_ibfk_4` FOREIGN KEY (`kd_kompetensi`) REFERENCES `nilai_kompetensi` (`kd_kompetensi`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `hasil_nilai_ibfk_5` FOREIGN KEY (`kd_mapel`) REFERENCES `mapel` (`kd_mapel`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `kelas`
@@ -378,13 +320,11 @@ ALTER TABLE `kelas`
 ADD CONSTRAINT `kelas_ibfk_1` FOREIGN KEY (`id_jurusan`) REFERENCES `jurusan` (`id_jurusan`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `section`
+-- Constraints for table `siswa`
 --
-ALTER TABLE `section`
-ADD CONSTRAINT `section_ibfk_1` FOREIGN KEY (`kd_kelas`) REFERENCES `kelas` (`kd_kelas`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `section_ibfk_2` FOREIGN KEY (`kd_mapel`) REFERENCES `mapel` (`kd_mapel`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `section_ibfk_3` FOREIGN KEY (`id_guru`) REFERENCES `guru` (`id_guru`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `section_ibfk_4` FOREIGN KEY (`id_thn_akad`) REFERENCES `thn_akad` (`id_thn_akad`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `siswa`
+ADD CONSTRAINT `siswa_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `siswa_ibfk_2` FOREIGN KEY (`kd_kelas`) REFERENCES `kelas` (`kd_kelas`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

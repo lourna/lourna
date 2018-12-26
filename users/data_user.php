@@ -98,7 +98,8 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 												else{
 													$and = "";
 												}
-												$query = "SELECT users.id_user, first_name, last_name, user_name, password, kelas, jurusan, level FROM users LEFT JOIN siswa ON users.id_user=siswa.id_user LEFT JOIN hasil_nilai ON siswa.nis=hasil_nilai.nis LEFT JOIN section ON hasil_nilai.id_section=section.id_section LEFT JOIN kelas ON section.kd_kelas=kelas.kd_kelas LEFT JOIN jurusan ON kelas.id_jurusan=jurusan.id_jurusan";
+												// procedure
+												$query = "call user";
 												$result = mysqli_query($con, $query);
 												$jml_user = mysqli_num_rows($result);
 												$no = 1;

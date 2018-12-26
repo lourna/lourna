@@ -1,17 +1,10 @@
+<?php
+    include '../koneksi.php';
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-    <?php
-        include '../koneksi.php';
-
-        $nis = $_GET['nis'];
+    $nis = $_GET['nis'];
         //$query = "DELETE FROM 'tbl_user' WHERE 'id'=$id";
         //echo $query;
-       $query = mysqli_query($con, "DELETE FROM siswa WHERE nis=$nis");
+    $query = mysqli_query($con, "DELETE FROM siswa WHERE nis=$nis");
         if (mysqli_query($con, $query)) {
             echo "Record deleted successfully";
         } else {
@@ -19,14 +12,4 @@
         }
 
        header ("location:data_siswa.php");
-
-    ?>
-    <script type="text/javascript">
-        function konfirm() {
-        tanya = confirm("Anda yakin ?");
-        if (tanya == true) return true;
-        else return false;
-        }
-    </script>
-</body>
-</html>
+?>
