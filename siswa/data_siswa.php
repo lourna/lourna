@@ -98,11 +98,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 												else{
 													$and = "";
 												}
-<<<<<<< HEAD
-												$query = "SELECT siswa.nis, first_name, last_name, kelas, tgl_lahir, alamat, no_hp, wali_murid, hp_wali FROM siswa LEFT JOIN hasil_nilai ON siswa.nis=hasil_nilai.nis LEFT JOIN section ON hasil_nilai.id_section= section.id_section LEFT JOIN kelas ON section.kd_kelas=kelas.kd_kelas LEFT JOIN jurusan ON kelas.id_jurusan=jurusan.id_jurusan";
-=======
-												$query = "call siswa";
->>>>>>> 12fdeeea1de8d2ffb6b1155241630c15dccc07a9
+												$query = "SELECT siswa.nis, first_name, last_name, kelas, tgl_lahir, alamat, no_hp, wali_murid, hp_wali FROM siswa LEFT JOIN kelas ON siswa.kd_kelas=kelas.kd_kelas";
 												$result = mysqli_query($con, $query);
 												$jml_siswa = mysqli_num_rows($result);
 												$no = 1;

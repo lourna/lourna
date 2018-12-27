@@ -39,7 +39,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 			include '../dashboard/left_sidebar.php';
 
 			$nis_err = $first_name_err = $last_name_err = $kelas_err = $tgl_lahir_err = $alamat_err = $no_hp_err = $wali_murid_err = $hp_wali_err = "";
-			$nis = $first_name = $last_name = $kelas = $tgl_lahir = $no_hp = $wali_murid = $hp_wali = "";
+			$nis = $first_name = $last_name = $kd_kelas = $tgl_lahir = $no_hp = $wali_murid = $hp_wali = "";
 			$alamat = "Alamat";
 
 			if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -78,11 +78,11 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 					$last_name = trim($_POST['last_name']);
 				}
 
-				if (empty($_POST['kelas'])) {
+				if (empty($_POST['kd_kelas'])) {
 					$kelas_err = "* Pilih kelas !";
 				}
 				else {
-					$kelas = trim($_POST['kelas']);
+					$kd_kelas = trim($_POST['kd_kelas']);
 				}
 
 				if (empty($_POST['tgl_lahir'])) {
@@ -131,13 +131,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 
 				if ($nis_err == "" && $first_name_err == "" && $last_name_err == "" && $kelas_err == "" && $tgl_lahir_err == "" && $alamat_err == "" && $no_hp_err == "" && $wali_murid_err == "" && $hp_wali == "") {
 
-					mysqli_query($con, "INSERT INTO section(kd_kelas, id_section) VALUES ('$kelas','')");
-					mysqli_query($con, "INSERT INTO hasil_nilai(id_section, nis, id_hasil_nilai) VALUES ('', '$nis', '')");
-					mysqli_query($con, "INSERT INTO siswa (nis, first_name, last_name, tgl_lahir, alamat, no_hp, wali_murid, hp_wali, id_user, id_hasil_nilai) VALUES ('$nis', '$first_name', '$last_name', '$tgl_lahir', '$alamat', '$no_hp', '$wali_murid', '$no_wali', '', '' )");
-
-					// ($nis_err == "" && $first_name_err == "" && $last_name_err == "" && $kelas_err == "" && $tgl_lahir_err == "" && $alamat_err == "" && $no_hp_err == "" && $wali_murid_err == "" && $hp_wali == "") {
-					// 	mysqli_query($con, "INSERT INTO siswa (nis, first_name, last_name, tgl_lahir, alamat, no_hp, wali_murid, hp_wali, id_user,) VALUES ('$nis', '$first_name', '$last_name', '$tgl_lahir', '$alamat', '$no_hp', '$wali_murid', '$no_wali', '')");
-					// mysqli_query($con, "INSERT INTO kelas (kd_kelas, kelas, kd_mapel, id_jurusan) VALUE ((SELECT nis FROM siswa WHERE first_name = '$nama_depan'), 'kelas')");
+					mysqli_query($con, "INSERT INTO siswa (nis, first_name, last_name, tgl_lahir, alamat, no_hp, wali_murid, hp_wali, kd_kelas) VALUES ('$nis', '$first_name', '$last_name', '$tgl_lahir', '$alamat', '$no_hp', '$wali_murid', '$no_wali', '$kd_kelas')");
 
 					echo "<script>
 						alert('Data berhasil ditambah');
@@ -145,8 +139,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 					  </script>";
 				}
 			}
-		?>
-		<div class="main">
+		?><div class="main">
  		 <div class="main-content">
  			 <div class="container-fluid">
  				 <div class="panel">
@@ -181,20 +174,16 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 											</div>
 											<div class="col-md-6">
 												<label for="">Kelas</label>
-											   		<select class="form-control" name="kelas">
+											   		<select class="form-control" name="kd_kelas">
 														<option value="">-- Pilih Kelas --</option>
 														<?php
-															$qkelas = mysqli_query($con, "SELECT * FROM `kelas` left join jurusan on kelas.id_jurusan=jurusan.id_jurusan");
+															$qkelas = mysqli_query($con, "SELECT * FROM kelas left join jurusan on kelas.id_jurusan=jurusan.id_jurusan");
 															while ($val = mysqli_fetch_assoc($qkelas)) {
 																?>
-														<option name="kelas" value="<?php echo $kelas == "$val[kd_kelas]" ? 'selected' : '' ?>" > <?php echo "$val[kelas]"." $val[jurusan]"." $val[kd_mapel]";  ?> </option>
-													<?php } ?>
-															<!--?php
-																$qkelas = mysqli_query($con, "SELECT * FROM kelas");
-																while ($val = mysqli_fetch_assoc($qkelas)) {
-																echo "<option value = '$val[id_kelas]' isset($_POST[kelas]) && $_POST[kelas] == $val[id_kelas] ? 'selected' : ''> $val[kelas] </option>";
-																}
-															?-->
+															<option name="kd_kelas" value="<?php echo $kd_kelas == "$val[kd_kelas]" ? 'selected' : '' ?>" > 
+																<?php echo "$val[kelas]"." $val[jurusan]"." $val[golongan]";  ?> 
+															</option>
+														<?php } ?>
 											    	</select>
 													<span class="text-danger"><?php echo ($kelas_err) ?></span>
 											 </div>
@@ -221,7 +210,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 											</div>
 											<div class="col-md-6">
 												<label for="">Wali Murid</label>
-												<input type="text" name="wali_murid" minlength="1" maxlength="20" class="form-control" placeholder="Wali Murid" value="<?php echo(isset($_POST['wali_murid']) ? $_POST['wali_murid'] : $wali_murid ) ?>">
+												<input type="text" name="wali_murid" minlength="1" maxlength="20" class="form-control" placeholder="Nama Wali Murid" value="<?php echo(isset($_POST['wali_murid']) ? $_POST['wali_murid'] : $wali_murid ) ?>">
 		 										<span class="text-danger"> <?php echo($wali_murid_err); ?></span>
 											</div>
 										</div>
@@ -236,8 +225,8 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 										<br>
 										<div class="row">
 		 									<div class="col-md-6">
-		 										<button type="submit" class="btn btn-primary"><i class="fa fa-plus-square"></i>  Tambah</button> &nbsp; &nbsp;
-		 										<button type="reset" name="reset" class="btn btn-danger" onclick="history.go(-1);"><i class="fa fa-times-circle"></i> &nbsp;  Batal</button>
+		 										<button type="submit" class="btn btn-primary"><i class="fa fa-plus-square"></i> &nbsp; Tambah</button>
+		 										<button type="reset" name="reset" class="btn btn-danger" onclick="history.go(-1);"><i class="fa fa-times-circle"></i> &nbsp; Batal</button>
 		 									</div>
 		 								</div>
 									</form>
@@ -248,6 +237,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 				</div>
 			</div>
 		</div>
+		
 
 		<div class="clearfix"></div>
 		<?php include '../dashboard/footer.php'; ?>
