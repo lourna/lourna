@@ -77,6 +77,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 												<th>kode kelas</th>
 												<th>kelas</th>
 												<th>golongan</th>
+												<th>Aksi</th>
 											</tr>
 										</thead>
 										<tbody>

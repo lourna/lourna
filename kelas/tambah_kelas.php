@@ -41,38 +41,41 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 		$kode_kelas = $kelas= $golongan = "";
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			//print_r($_POST);
-			if (empty($_POST['kode kelas'])) {
+
+			if (empty($_POST['kode_kelas'])) {
 				$kode_kelas_err = "* kode kelas harus diisi !";
 			}
-			else if (!preg_match("/^[0-9]*$/", $_POST['kode kelas'])) {
-				$kelas_err = "* Hanya dapat menginputkan angka !";
+			elseif (!is_numeric($_POST['kode_kelas'])) {
+				$kode_kelas_err = "* Hanya dapat menginputkan angka !";
 			}
 			else {
 				$kode_kelas = trim($_POST['kode_kelas']);
 			}
 
-					if (empty($_POST['kelas']) || $_POST['kelas'] == "kelas") {
+			if (empty($_POST['kelas'])) {
 				$kelas_err = "* kelas harus diisi !";
 			}
-			else{
-				$kelas = $_POST['kelas'];
+			else if (!preg_match("/^[a-zA-Z ]*$/", $_POST['kelas'])) {
+				$kelas_err = "* Hanya dapat menginputkan huruf !";
+			}
+			else {
+				$kelas = trim($_POST['kelas']);
+			}
+			if (empty($_POST['golongan'])) {
+				$golongan_err = "* golongan harus diisi !";
+			}
+			elseif (!is_numeric($_POST['golongan'])) {
+				$golongan_err = "* Hanya dapat menginputkan angka !";
+			}
+			else {
+				$golongan = trim($_POST['golongan']);
 			}
 
-			if (empty($_POST['kelas'])) {
-				$kelas_err = "* diisi !";
-			}
-			else{
-				$kelas = $_POST['kelas'];
-			}
-
-			if ($kode_kelas_err == "" && $kelas_err == "" && $id_jurusan == "" && $jurusan_err == "") {
-				mysqli_query($con, "INSERT INTO kelas (kode_kelas, kelas) VALUE ('$kelas','$kode_kelas') ");
-
-				mysqli_query($con, "INSERT INTO jurusan (id_jurusan, jurusan) VALUE ('$jurusan', '$id_jurusan') ");
-
+			if ($kode_kelas_err == "" && $kelas_err == "" && $golongan = "") {
+				mysqli_query($con, "INSERT INTO kelas (kode_kelas, kelas, golongan) VALUE ('$kode_kelas','$kelas', '$golongan') ");
 				echo "<script>
 						alert('Data berhasil ditambah');
-						window.location.href='data_user.php';
+						window.location.href='data_kelas';
 					  </script>";
 			}
 

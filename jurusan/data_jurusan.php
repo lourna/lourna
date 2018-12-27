@@ -75,7 +75,8 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 											<tr>
 												<th>No</th>
 												<th>ID jurusan</th>
-												<th>jurusan</th>
+												<th>Jurusan</th>
+												<th>Aksi</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -100,7 +101,10 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 															<td>$no</td>
 															<td>$val[id_jurusan]</td>
 															<td>$val[jurusan]</td>
-
+															<td>
+															<a href='edit_jurusan.php?id_jurusan=$val[id_jurusan]' class='btn btn-primary btn-xs' title='Edit'><i class='fa fa-pencil'></i></a>
+															<a href='delete_jurusan.php?id_jurusan=$val[id_jurusan]' class='btn btn-danger btn-xs' title='Hapus'><i class='lnr lnr-trash'></i></a>
+															</td>
 														  </tr>
 													";
 													$no++;
