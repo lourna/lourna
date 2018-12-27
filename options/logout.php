@@ -6,5 +6,5 @@ unset($_SESSION['level']);
  ?>
  <script>
  	alert('Berhasil Logout');
-window.location.href = "login.php";
+window.location.href = "../login.php";
   </script>
