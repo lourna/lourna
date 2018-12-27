@@ -1,32 +1,33 @@
 <?php session_start();
-if (empty($_SESSION['username']) && empty($_SESSION['level'])) {
+if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 	echo "<script>
 		alert('Anda harus login dahulu !');
 		window.location.href='../login.php';
 	</script>";
 }
- ?>
+?>
 <!doctype html>
 <html lang="en">
 <head>
-	<title>Edit Guru | SIANI</title>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-	<!-- VENDOR CSS -->
-	<link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="../assets/vendor/linearicons/style.css">
-	<link rel="stylesheet" href="../assets/vendor/chartist/css/chartist-custom.css">
-	<!-- MAIN CSS -->
-	<link rel="stylesheet" href="../assets/css/main.css">
-	<!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
-	<!--<link rel="stylesheet" href="assets/css/demo.css">-->
-	<!-- GOOGLE FONTS -->
-	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
-	<!-- ICONS -->
-	<link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-	<link rel="icon" type="image/png" sizes="96x96" href="../assets/img/favicon.png">
+ <title>Data Guru | SIANI</title>
+ <meta charset="utf-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+ <!-- VENDOR CSS -->
+ <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
+ <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+ <link rel="stylesheet" href="../assets/vendor/linearicons/style.css">
+ <link rel="stylesheet" href="../assets/vendor/chartist/css/chartist-custom.css">
+ <!-- MAIN CSS -->
+ <link rel="stylesheet" href="../assets/css/main.css">
+ <!-- style css -->
+ <link rel="stylesheet" href="../assets/css/style.css">
+ <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+ <!--<link rel="stylesheet" href="assets/css/demo.css">-->
+ <!-- GOOGLE FONTS -->
+ <!-- <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet"> -->
+ <!-- ICONS -->
+ <link rel="shortcut icon" href="../assets/img/icon.ico">
 </head>
 
 <body>
@@ -71,10 +72,15 @@ if (empty($_SESSION['username']) && empty($_SESSION['level'])) {
 					$no_hp = trim($_POST['no_hp']);
 				}
 
-	
+				if (empty($_POST['email'])) {
+					$email_err = "* Email harus diisi !";
+				}
+				else{
+					$email = trim($_POST['email']);
+				}
 
 				if ($id_guru_err == "" && $nama_guru_err == "" && $no_hp_err == "" && $email_err == "") {
-					mysqli_query($con, "UPDATE guru SET id_guru = '$id', nama_guru = '$nama', no_hp = '$nohp', email = '$email' WHERE id_guru = '$_POST[id_guru]' ");
+					mysqli_query($con, "UPDATE guru SET id_guru = '$id_guru', nama_guru = '$nama_guru', no_hp = '$no_hp', email = '$email' WHERE id_guru = '$_POST[id_guru]' ");
 					echo "<script>
 						alert('Data berhasil diperbarui');
 						window.location.href='data_guru.php';
@@ -89,7 +95,7 @@ if (empty($_SESSION['username']) && empty($_SESSION['level'])) {
  			 <div class="container-fluid">
  				 <div class="panel">
  					 <div class="panel-heading">
- 						 <h1 class="panel-title"><i class="fa fa-user-md"></i>&ensp;Edit Guru</h1>
+ 						 <h1 class="panel-title"><i class="fa fa-user"></i>&ensp;Edit Guru</h1>
  					 </div>
  				 </div>
  				 <div class="row">
@@ -102,43 +108,33 @@ if (empty($_SESSION['username']) && empty($_SESSION['level'])) {
 										<div class="row">
 											<div class="col-md-6">
 												<label for="">ID</label>
-												<input type="text" name="ID" class="form-control" placeholder="ID" value="<?php echo($val['id_guru']) ?>">
-		 										<span class="text-danger"> <?php echo($id_err); ?></span>
+												<input type="text" name="id_guru" class="form-control" placeholder="ID Guru" value="<?php echo($val['id_guru']) ?>">
+		 										<span class="text-danger"> <?php echo($id_guru_err); ?></span>
 											</div>
 										</div>
-										<br> 
-											<div class="row">
+										<br>
+										<div class="row">
 										 <div class="col-md-6">
 											 <label for="">Nama</label>
 											 <input type="text" name="nama_guru" class="form-control" placeholder="Nama Guru" value="<?php echo($val['nama_guru']) ?>">
-											 <span class="text-danger"> <?php echo($user_name_err); ?></span>
+											 <span class="text-danger"> <?php echo($nama_guru_err); ?></span>
 										 </div>
 										</div>
 										<br>
-									 </div>
 										 <div class="row">
 											<div class="col-md-6">
 												<label for="">No HP</label>
-												<input type="text" name="nohp" minlength="11" maxlength="13" class="form-control" placeholder="No Handphone" value="<?php echo($val['no_hp']) ?>">
-		 										<span class="text-danger"> <?php echo($nohp_err); ?></span>
+												<input type="text" name="no_hp" minlength="11" maxlength="13" class="form-control" placeholder="No Handphone" value="<?php echo($val['no_hp']) ?>">
+		 										<span class="text-danger"> <?php echo($no_hp_err); ?></span>
 											</div>
 										</div>
 										<br>
-											<div class="col-md-6">
-												<label for="">Email</label>
-												<input type="text" name="email" class="form-control" placeholder="Email" value="<?php echo($val['email']) ?>">
-		 										<span class="text-danger"> <?php echo($email_err); ?></span>
-											</div>
-										</div>
-												<?php
-													$qpoli = mysqli_query($con, "SELECT * FROM poli");
-														while ($valpoli = mysqli_fetch_assoc($qpoli)) {
-															echo "<option value = '$valpoli[id_poli]' $val[id_poli] == $valpoli[id_poli] ? 'selected' : ''> $valpoli[id_poli] </option>";
-														}
-													 ?>
-										    </select>
-												<span class="text-danger"><?php echo ($val['id_poli']) ?></span>
-										  </div>
+										<div class="row">
+										 <div class="col-md-6">
+											 <label for="">Email</label>
+											 <input type="text" name="email" class="form-control" placeholder="Email" value="<?php echo($val['email']) ?>">
+											 <span class="text-danger"> <?php echo($email_err); ?></span>
+										 </div>
 										</div>
 										<br>
 										<div class="row">
@@ -166,4 +162,3 @@ if (empty($_SESSION['username']) && empty($_SESSION['level'])) {
 	</div>
 </body>
 </html>
-

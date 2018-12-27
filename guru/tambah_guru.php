@@ -76,6 +76,12 @@ if (empty($_SESSION['username']) && empty($_SESSION['level'])) {
 					$no_hp = $_POST['no_hp'];
 				}
 
+				if (empty($_POST['email'])) {
+					$email_err = "* Email harus diisi !";
+				}
+				else{
+					$email = trim($_POST['email']);
+				}
 				if ($id_guru_err == "" && $nama_guru_err == "" && $no_hp_err == "" && $email_err == "") {
 					mysqli_query($con, "INSERT INTO guru (id_guru, nama_guru, no_hp, email) VALUE ('$id_guru', '$nama_guru', '$no_hp', '$email')");
 					echo "<script>
