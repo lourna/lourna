@@ -21,6 +21,7 @@
 						<li><a href="../guru/data_guru.php" class="<?php echo ($nav == "guru" ? 'active' : '') ?>"><i class="lnr lnr-user"></i> <span>Data Guru</span></a></li>
 						<li><a href="../mapel/data_mapel.php" class="<?php echo ($nav == "mapel" ? 'active' : '') ?>"><i class="fa fa-file-o"></i> <span>Mata Pelajaran</span></a></li>
 						<li><a href="../kelas/data_kelas.php" class="<?php echo ($nav == "kelas" ? 'active' : '') ?>"><i class="fa fa-building-o"></i> <span>Kelas</span></a></li>
+						<li><a href="../jurusan/data_jurusan.php" class="<?php echo ($nav == "jurusan" ? 'active' : '') ?>"><i class="fa fa-building-o"></i> <span>Jurusan</span></a></li>
 							<li>
 								<a href="#subPages1" data-toggle="collapse" class="<?php echo ($nav == "antrian" ? 'active' : '') ?>"><i class="lnr lnr-book"></i><span>Raport</span><i class="icon-submenu lnr lnr-chevron-left"></i></a>
 								<div id="subPages1" class="collapse">

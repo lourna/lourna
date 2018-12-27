@@ -9,7 +9,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 <!doctype html>
 <html lang="en">
 <head>
-	<title>Data Kelas | SIANI</title>
+	<title>Data Jurusan</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -84,7 +84,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 		 		<div class="container-fluid">
 					<div class="panel">
 						<div class="panel-heading">
-							<h1 class="panel-title"><i class="lnr lnr-user"></i>&ensp;Tambah Data Kelas</h1>
+							<h1 class="panel-title"><i class="lnr lnr-user"></i>&ensp;Tambah Data Jurusan</h1>
 						</div>
 					</div>
 		 			<div class="row">
