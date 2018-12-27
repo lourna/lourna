@@ -5,29 +5,29 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 		window.location.href='../login.php';
 	</script>";
 }
- ?>
+?>
 <!doctype html>
 <html lang="en">
 <head>
-	<title>Data Kelas | SIANI</title>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-	<!-- VENDOR CSS -->
-	<link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="../assets/vendor/linearicons/style.css">
-	<link rel="stylesheet" href="../assets/vendor/chartist/css/chartist-custom.css">
-	<!-- MAIN CSS -->
-	<link rel="stylesheet" href="../assets/css/main.css">
-	<!-- style css -->
-	<link rel="stylesheet" href="../assets/css/style.css">
-	<!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
-	<!--<link rel="stylesheet" href="assets/css/demo.css">-->
-	<!-- GOOGLE FONTS -->
-	<!-- <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet"> -->
-	<!-- ICONS -->
-	<link rel="shortcut icon" href="../assets/img/icon.ico">
+ <title>Data Kelas| SIANI</title>
+ <meta charset="utf-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+ <!-- VENDOR CSS -->
+ <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
+ <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+ <link rel="stylesheet" href="../assets/vendor/linearicons/style.css">
+ <link rel="stylesheet" href="../assets/vendor/chartist/css/chartist-custom.css">
+ <!-- MAIN CSS -->
+ <link rel="stylesheet" href="../assets/css/main.css">
+ <!-- style css -->
+ <link rel="stylesheet" href="../assets/css/style.css">
+ <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+ <!--<link rel="stylesheet" href="assets/css/demo.css">-->
+ <!-- GOOGLE FONTS -->
+ <!-- <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet"> -->
+ <!-- ICONS -->
+ <link rel="shortcut icon" href="../assets/img/icon.ico">
 </head>
 
 <body>
@@ -36,105 +36,48 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 		<?php
 			include '../dashboard/navbar.php';
 			include '../dashboard/left_sidebar.php';
-			$query = "SELECT * FROM kelas WHERE kelas = '$_GET[kelas]'";
+			$query = "SELECT * FROM kelas WHERE kode_kelas = '$_GET[kode_kelas]'";
 			$result = mysqli_query($con, $query);
 			$val = mysqli_fetch_assoc($result);
-			$nis_err = $first_name_err = $last_name_err = $kelas_err = $tgl_lahir_err = $alamat_err = $no_hp_err = $wali_murid_err = $hp_wali_err = "";
-			$nis = $first_name = $last_name = $kelas = $tgl_lahir = $no_hp = $wali_murid = $hp_wali = "";
-			$alamat = "Alamat";
+			$kode_kelas_err = $kelas_err = $golongan_err ="";
+			$kode_kelas = $kelas= $golongan = "";
 
 			if ($_SERVER["REQUEST_METHOD"] == "POST") {
-				$quser = mysqli_query($con, "SELECT user_name FROM users WHERE user_name = '$_POST[user_name]'");
-				$cekuser = mysqli_num_rows($quser);
-				if (empty($_POST['nis'])) {
-					$nis_err = "* NIS harus diisi !";
-				}
-				elseif (!is_numeric($_POST['nis'])) {
-					$nis_err = "* NIS harus berupa angka !";
-				}
-				elseif ($ceknis > 0) {
-					$nis_err = "* NIS telah digunakan !";
-				}
-				else {
-					$nis = trim($_POST['nis']);
-				}
+				if (empty($_POST['kode_kelas'])) {
+				$kode_kelas_err = "* kode kelas harus diisi !";
+			}
+			elseif (!is_numeric($_POST['kode_kelas'])) {
+				$kode_kelas_err = "* Hanya dapat menginputkan angka !";
+			}
+			else {
+				$kode_kelas = trim($_POST['kode_kelas']);
+			}
 
-				if (empty($_POST['first_name'])) {
-					$first_name_err = "* Nama Depan harus diisi !";
-				}
-				else if (!preg_match("/^[.a-zA-Z ]*$/", $_POST['first_name'])) {
-					$first_name_err = "* Hanya dapat menginputkan huruf dan spasi !";
-				}
-				else {
-					$first_name = trim($_POST['first_name']);
-				}
+			if (empty($_POST['kelas'])) {
+				$kelas_err = "* kelas harus diisi !";
+			}
+			else if (!preg_match("/^[a-zA-Z ]*$/", $_POST['kelas'])) {
+				$kelas_err = "* Hanya dapat menginputkan huruf !";
+			}
+			else {
+				$kelas = trim($_POST['kelas']);
+			}
+			if (empty($_POST['golongan'])) {
+				$golongan_err = "* golongan harus diisi !";
+			}
+			elseif (!is_numeric($_POST['golongan'])) {
+				$golongan_err = "* Hanya dapat menginputkan angka !";
+			}
+			else {
+				$golongan = trim($_POST['golongan']);
+			}
 
-				if (empty($_POST['last_name'])) {
-					$last_name_err = "* Nama Belakang harus diisi !";
-				}
-				else if (!preg_match("/^[.a-zA-Z ]*$/", $_POST['last_name'])) {
-					$last_name_err = "* Hanya dapat menginputkan huruf dan spasi !";
-				}
-				else {
-					$last_name = trim($_POST['last_name']);
-				}
 
-				if (empty($_POST['kelas'])) {
-					$kelas_err = "* Pilih kelas !";
-				}
-				else {
-					$kelas = trim($_POST['kelas']);
-				}
-
-				if (empty($_POST['tgl_lahir'])) {
-					$tgl_lahir_err = "* Tanggal Lahir harus diisi !";
-				}
-				else {
-					$tgl_lahir = trim($_POST['tgl_lahir']);
-				}
-
-				if (empty($_POST['alamat']) || $_POST['alamat'] == "Alamat") {
-					$alamat_err = "* Alamat harus diisi !";
-				}
-				else{
-					$alamat = $_POST['alamat'];
-				}
-
-				if (empty($_POST['no_hp'])) {
-					$no_hp_err = "* No Hp harus diisi !";
-				}
-				elseif (!is_numeric($_POST['no_hp'])) {
-					$no_hp_err = "* No Hp harus berupa angka !";
-				}
-				else{
-					$no_hp = $_POST['no_hp'];
-				}
-
-				if (empty($_POST['wali_murid'])) {
-					$wali_murid_err = "* Nama Wali harus diisi !";
-				}
-				else if (!preg_match("/^[.a-zA-Z ]*$/", $_POST['wali_murid'])) {
-					$wali_murid_err = "* Hanya dapat menginputkan huruf dan spasi !";
-				}
-				else {
-					$wali_murid = trim($_POST['wali_murid']);
-				}
-
-				if (empty($_POST['hp_wali'])) {
-					$hp_wali_err = "* No Hp Wali harus diisi !";
-				}
-				elseif (!is_numeric($_POST['hp_wali'])) {
-					$hp_wali_err = "* No Hp Wali harus berupa angka !";
-				}
-				else{
-					$hp_wali = $_POST['hp_wali'];
-				}
-				
-				if ($nis_err == "" && $first_name_err == "" && $last_name_err == "" && $kelas_err == "" && $tgl_lahir_err == "" && $alamat_err == "" && $no_hp_err == "" && $wali_murid_err == "" && $hp_wali == "") {
-					mysqli_query($con, "UPDATE dokter SET nm_dokter = '$nama', gender = '$gender', alamat = '$alamat', no_hp = '$nohp', no_ijin_praktek = '$nip', id_poli = '$poli' WHERE id_dokter = '$_POST[id_dokter]' ");
+				if ($kode_kelas_err == "" && $kelas_err == "" && $golongan_err == "") {
+					mysqli_query($con, "UPDATE kelas SET kode_kelas = '$kode_kelas', kelas = '$kelas', golongan = '$golongan' WHERE kode_kelas = '$_POST[kode_kelas]' ");
 					echo "<script>
 						alert('Data berhasil diperbarui');
-						window.location.href='data_dokter.php';
+						window.location.href='data_kelas.php';
 					 	</script>";
 				}
 			}
@@ -146,7 +89,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
  			 <div class="container-fluid">
  				 <div class="panel">
  					 <div class="panel-heading">
- 						 <h1 class="panel-title"><i class="fa fa-user-md"></i>&ensp;Edit Dokter</h1>
+ 						 <h1 class="panel-title"><i class="fa fa-user"></i>&ensp;Edit Guru</h1>
  					 </div>
  				 </div>
  				 <div class="row">
@@ -155,62 +98,31 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
  							 <div class="row">
  							<div class="panel-body">
 									<form method="POST" action="">
-										<input type="hidden" name="id_dokter" value="<?php echo $val['id_dokter']?>">
+										<input type="hidden" name="kode_kelas" value="<?php echo $val['kode_kelas']?>">
 										<div class="row">
 											<div class="col-md-6">
-												<label for="">Nama Dokter</label>
-												<input type="text" name="nama" class="form-control" placeholder="Nama Dokter" value="<?php echo($val['nm_dokter']) ?>">
-		 										<span class="text-danger"> <?php echo($nama_err); ?></span>
-											</div>
-											<div class="col-md-6">
-												<label for="">No Handphone</label>
-												<input type="text" name="nohp" minlength="11" maxlength="13" class="form-control" placeholder="No Handphone" value="<?php echo($val['no_hp']) ?>">
-		 										<span class="text-danger"> <?php echo($nohp_err); ?></span>
+												<div class="col-md-6">
+												<label for="">Kode Kelas</label>
+												<input type="text" name="kode_kelas" class="form-control" placeholder="kode_kelas" value="<?php echo($val['kode_kelas']) ?>">
+		 										<span class="text-danger"> <?php echo($kode_kelas_err); ?></span>
 											</div>
 										</div>
 										<br>
 										<div class="row">
-											<div class="col-md-6">
-												<label for="">Gender</label>
-												<br>
-												<div class="col-md-3">
-		 											<label class="fancy-radio">
-		 											<input type="radio" name="gender" class="form-control" value="Laki-laki" <?php echo($val['gender'] == "Laki-laki" ? 'checked' : '') ?> ><span><i></i>Laki-Laki</span>
-		 											</label>
-		 										</div>
-		 										<div class="col-md-3">
-		 											<label class="fancy-radio">
-		 											<input type="radio" name="gender" class="form-control" value="Perempuan" <?php echo($val['gender'] == "Perempuan" ? 'checked' : '') ?> ><span><i></i>Perempuan</span>
-		 											</label>
-		 										</div>
-		 										<span class="text-danger"> <?php echo($gender_err); ?></span>
-											</div>
-											<div class="col-md-6">
-												<label for="">No Izin Praktek</label>
-												<input type="text" name="nip" class="form-control" placeholder="Nomor Izin Praktek" value="<?php echo($val['no_ijin_praktek']) ?>">
-		 										<span class="text-danger"> <?php echo($nip_err); ?></span>
-											</div>
+										 <div class="col-md-6">
+											 <label for="">kelas</label>
+											 <input type="text" name="kelas" class="form-control" placeholder="kelas" value="<?php echo($val['kelas']) ?>">
+											 <span class="text-danger"> <?php echo($kode_kelas_err); ?></span>
+										 </div>
 										</div>
 										<br>
-										<div class="row">
+										 <div class="row">
 											<div class="col-md-6">
-												<label for="">Alamat</label>
-												<textarea name="alamat" class="form-control" rows="2"><?php echo $val['alamat'] ?></textarea>
-		 										<span class="text-danger"> <?php echo($alamat_err); ?></span>
+												<div class="col-md-6">
+												<label for="">golongan</label>
+												<input type="text" name="golongan" class="form-control" placeholder="golongan" value="<?php echo($val['golongan']) ?>">
+		 										<span class="text-danger"> <?php echo($golongan_err); ?></span>
 											</div>
-											<div class="col-md-6">
-												<label for="">Poli</label>
-										    <select class="form-control" name="poli">
-													<option value="">-- Pilih Poli --</option>
-													<?php
-														$qpoli = mysqli_query($con, "SELECT * FROM poli");
-														while ($valpoli = mysqli_fetch_assoc($qpoli)) {
-															echo "<option value = '$valpoli[id_poli]' $val[id_poli] == $valpoli[id_poli] ? 'selected' : ''> $valpoli[id_poli] </option>";
-														}
-													 ?>
-										    </select>
-												<span class="text-danger"><?php echo ($val['id_poli']) ?></span>
-										  </div>
 										</div>
 										<br>
 										<div class="row">

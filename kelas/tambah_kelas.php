@@ -75,7 +75,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 				mysqli_query($con, "INSERT INTO kelas (kode_kelas, kelas, golongan) VALUE ('$kode_kelas','$kelas', '$golongan') ");
 				echo "<script>
 						alert('Data berhasil ditambah');
-						window.location.href='data_kelas';
+						window.location.href='data_kelas.php';
 					  </script>";
 			}
 
