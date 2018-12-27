@@ -133,7 +133,7 @@ if (empty($_SESSION['username']) && empty($_SESSION['level'])) {
 										<div class="row">
 										  	<div class="col-md-6">
 												<label for="">Email</label>
-													<input type="text" name="tgl_lahir" minlength="10" maxlength="10" class="form-control" placeholder="Email" value="<?php echo(isset($_POST['email']) ? $_POST['email'] : $email ) ?>">
+													<input type="text" name="tgl_lahir" minlength="2" maxlength="30" class="form-control" placeholder="Email" value="<?php echo(isset($_POST['email']) ? $_POST['email'] : $email ) ?>">
 		 												<span class="text-danger"> <?php echo($email_err); ?></span>
 											<br>
 										<div class="row">

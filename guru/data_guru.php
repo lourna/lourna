@@ -77,8 +77,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 												<th>ID</th>
 												<th>Nama</th>
 												<th>No HP</th>
-												<th>Email</th>
-
+												<th>Action</th>
 												</tr>
 										</thead>
 										<tbody>
