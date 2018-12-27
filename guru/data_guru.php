@@ -77,6 +77,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 												<th>ID</th>
 												<th>Nama</th>
 												<th>No HP</th>
+												<th>Email</th>
 												<th>Action</th>
 												</tr>
 										</thead>
@@ -105,12 +106,12 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 													echo "<tr>
 															<td>$no</td>
 															<td>$val[id_guru]</td>
-															<td>$val[guru]</td>
+															<td>$val[nama_guru]</td>
 															<td>$val[no_hp]</td>
 															<td>$val[email]</td>
 															<td>
 															<a href='edit_guru.php?id_guru=$val[id_guru]' class='btn btn-primary btn-xs' title='Edit'><i class='fa fa-pencil'></i></a>
-															<a href='hapus_guru.php?id_guru=$val[id_guru]' class='btn btn-danger btn-xs' title='Edit'><i class='lnr lnr-trash'></i></a>
+															<a href='delete_guru.php?id_guru=$val[id_guru]' class='btn btn-danger btn-xs' title='Hapus'><i class='lnr lnr-trash'></i></a>
 															</td>
 														  </tr>
 													";

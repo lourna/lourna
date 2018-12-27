@@ -8,12 +8,10 @@ foreach($sql as $query){
   $result = mysqli_query($connection,$query);
   if($result){
     echo "<script>
-            alert('Data Berhasil Dibackup');
+            alert('Data Berhasil Direstore');
             window.location.href='dashboard/dashboard.php';
           </script>";
-      // echo '<tr><td><br></td></tr>';
-      // echo '<tr><td>'.$query.' <b>SUCCESS</b></td></tr>';
-      // echo '<tr><td><br></td></tr>';
+
   }
 }
 fclose($handle);

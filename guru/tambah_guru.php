@@ -75,20 +75,9 @@ if (empty($_SESSION['username']) && empty($_SESSION['level'])) {
 				else{
 					$no_hp = $_POST['no_hp'];
 				}
-				/*if (empty($_POST['no_hp'])) {
-					$no_hp_err = "* No Hp harus diisi !";
-				}
-				elseif (!is_numeric($_POST['no_hp'])) {
-					$no_hp_err = "* No Hp harus berupa angka !";
-				}
-				else{
-					$no_hp = $_POST['no_hp'];
-				}*/
-
 
 				if ($id_guru_err == "" && $nama_guru_err == "" && $no_hp_err == "" && $email_err == "") {
-					mysqli_query($con, "INSERT INTO guru (id_guru, nama_guru, no_hp, email) VALUE ('$id', '$nama', '$nohp', '$email')");
-					mysqli_query($con, "INSERT INTO login (id_user, username, password, level) VALUE ((SELECT id_guru FROM guru WHERE nama_guru = '$nama'), '$username', '$password', 'Guru') ");
+					mysqli_query($con, "INSERT INTO guru (id_guru, nama_guru, no_hp, email) VALUE ('$id_guru', '$nama_guru', '$no_hp', '$email')");
 					echo "<script>
 						alert('Data berhasil ditambah');
 						window.location.href='data_guru.php';
@@ -116,10 +105,13 @@ if (empty($_SESSION['username']) && empty($_SESSION['level'])) {
 												<input type="text" name="id_guru" minlength="4" maxlength="6" class="form-control" placeholder="ID" value="<?php echo(isset($_POST['id_guru']) ? $_POST['id_guru'] : $id_guru ) ?>">
 		 										<span class="text-danger"> <?php echo($id_guru_err); ?></span>
 											</div>
+										</div>
+										<br>
+										<div class="row">
 											<div class="col-md-6">
 												<label for="">Nama Guru</label>
 												<input type="text" name="nama_guru" minlength="1" maxlength="20" class="form-control" placeholder="Nama Guru" value="<?php echo(isset($_POST['nama_guru']) ? $_POST['nama_guru'] : $nama_guru ) ?>">
-		 										<span class="text-danger"> <?php echo($nama_guru_err); ?></span>
+												<span class="text-danger"> <?php echo($nama_guru_err); ?></span>
 											</div>
 										</div>
 										<br>
@@ -129,13 +121,16 @@ if (empty($_SESSION['username']) && empty($_SESSION['level'])) {
 												<input type="text" name="no_hp" minlength="11" maxlength="13" class="form-control" placeholder="No. Hp" value="<?php echo(isset($_POST['no_hp']) ? $_POST['no_hp'] : $no_hp ) ?>">
 		 										<span class="text-danger"> <?php echo($no_hp_err); ?></span>
 											</div>
-											<br>
+										</div>
+										<br>
 										<div class="row">
 										  	<div class="col-md-6">
 												<label for="">Email</label>
-													<input type="text" name="tgl_lahir" minlength="2" maxlength="30" class="form-control" placeholder="Email" value="<?php echo(isset($_POST['email']) ? $_POST['email'] : $email ) ?>">
+													<input type="text" name="email" minlength="2" maxlength="30" class="form-control" placeholder="Email" value="<?php echo(isset($_POST['email']) ? $_POST['email'] : $email ) ?>">
 		 												<span class="text-danger"> <?php echo($email_err); ?></span>
-											<br>
+												</div>
+										</div>
+										<br>
 										<div class="row">
 		 									<div class="col-md-6">
 		 										<button type="submit" class="btn btn-primary"><i class="fa fa-plus-square"></i>  Tambah</button> &nbsp; &nbsp;
@@ -145,7 +140,6 @@ if (empty($_SESSION['username']) && empty($_SESSION['level'])) {
 									</form>
 								</div>
 							</div>
-						</div>
 					</div>
 				</div>
 			</div>
