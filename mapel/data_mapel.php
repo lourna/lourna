@@ -62,7 +62,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 									<div class="col-md-4">
 										<form action="" method="POST">
 											<div class="input-group" style="margin-right: 25px;">
-												<input type="text" name="cari" class="form-control input-sm" placeholder="Cari berdasarkan nama ...">
+												<input type="text" name="cari" class="form-control input-sm" placeholder="Cari berdasarkan Kode ...">
 												<span class="input-group-btn"><button type="submit" name="btn_cari" class="btn btn-primary btn-sm"><i class="fa fa-search"></i></button></span>
 											</div>
 										</form>
@@ -107,7 +107,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 															<td>$val[mapel]</td>
 															<td>
 																<a href='edit_mapel.php?kd_mapel=$val[kd_mapel]' class='btn btn-primary btn-xs' title='Edit'><i class='fa fa-pencil'></i></a>
-																<a href='delete_user.php?id_user=$val[kd_mapel]' class='btn btn-danger btn-xs' title='Hapus'><i class='lnr lnr-trash'></i></a>
+																<a href='delete_mapel.php?kd_mapel=$val[kd_mapel]' class='btn btn-danger btn-xs' title='Hapus'><i class='lnr lnr-trash'></i></a>
 															</td>
 
 														  </tr>

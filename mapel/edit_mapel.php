@@ -56,7 +56,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 					$kd_mapel = trim($_POST['kd_mapel']);
 				}
 
-				if (empty($_POST['Mata Pelajaran']) || $_POST['mapel'] == "mapel") {
+				if (empty($_POST['mapel']) || $_POST['mapel'] == "mapel") {
 					$mapel_err = "* harus diisi !";
 				}
 				else{
@@ -65,7 +65,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 
 
 				if ($kd_mapel_err == "" && $mapel_err == "") {
-					mysqli_query($con, "UPDATE mapel SET  mapel = '$mapel' WHERE kd_mapel = '$_POST[kd_mapel]' ");
+					mysqli_query($con, "UPDATE mapel SET  mapel = '$mapel' WHERE kd_mapel = '$_POST[kd_mapel]'");
 					echo "<script>
 						alert('Data berhasil diperbarui');
 						window.location.href='data_mapel.php';

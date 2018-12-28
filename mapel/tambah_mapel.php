@@ -43,23 +43,30 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 			//print_r($_POST);
 			if (empty($_POST['kd_mapel'])) {
 				$kd_mapel_err = "* harus diisi !";
+
 			}
-			else if (!preg_match("/^[a-zA-Z ]*$/", $_POST['kd_mapel'])) {
-				$kd_mapel_err = "* Hanya dapat menginputkan huruf dan spasi !";
+			else if (!preg_match("/^[a-z0-9 ]*$/", $_POST['kd_mapel'])) {
+				$kd_mapel_err = "* harus diisi !";
+
 			}
 			else {
 				$kd_mapel = trim($_POST['kd_mapel']);
+
 			}
 
-					if (empty($_POST['Mata pelajaran']) || $_POST['mapel'] == "mapel") {
+					if (empty($_POST['mapel']) || $_POST['mapel'] == "mapel") {
 				$mapel_err = "* harus diisi !";
+
 			}
 			else{
 				$mapel = $_POST['mapel'];
+
 			}
 
 			if ($kd_mapel_err == "" && $mapel_err == "") {
-				mysqli_query($con, "INSERT INTO mapel (kd_mapel, mapel) VALUE ( '$kd_mapel','$mapel') ");
+				mysqli_query($con, "INSERT INTO mapel (kd_mapel, mapel) VALUE ( '$kd_mapel','$mapel')");
+
+				//echo "berhasilkah?";
 				echo "<script>
 						alert('Data berhasil ditambah');
 						window.location.href='data_mapel.php';
@@ -90,12 +97,12 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 		 										<span class="text-danger"> <?php echo($kd_mapel_err); ?></span>
 		 									</div>
                     </div>
-		 							</form >
+
 		 								<br>
 		 								<div class="row">
 											<div class="col-md-6">
 												<label for="">Mata pelajaran</label>
-												<input type="mata pelajaran" name="mapel" placeholder="mata pelajaran" class="form-control" value="<?php echo($mapel) ?>">
+												<input type="text" name="mapel" placeholder="mata pelajaran" class="form-control" value="<?php echo($mapel) ?>">
 												<span class="text-danger"> <?php echo($mapel_err); ?></span>
 		 									</div>
 		 								</div>
