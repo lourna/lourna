@@ -9,7 +9,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 <!doctype html>
 <html lang="en">
 <head>
-	<title>Data Kelas | SIANI</title>
+	<title>Data Jurusan | SIANI</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -37,45 +37,34 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 			include '../dashboard/navbar.php';
 			include '../dashboard/left_sidebar.php';
 
-		$kode_kelas_err = $kelas_err = $golongan_err = "";
-		$kode_kelas = $kelas= $golongan = "";
+		$id_jurusan_err = $jurusan_err = "";
+		$id_jurusan = $jurusan = "";
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			//print_r($_POST);
-
-			if (empty($_POST['kode_kelas'])) {
-				$kode_kelas_err = "* kode kelas harus diisi !";
+			if (empty($_POST['id_jurusan'])) {
+				$id_jurusan_err = "* kode kelas harus diisi !";
 			}
-			elseif (!is_numeric($_POST['kode_kelas'])) {
-				$kode_kelas_err = "* Hanya dapat menginputkan angka !";
-			}
-			else {
-				$kode_kelas = trim($_POST['kode_kelas']);
-			}
-
-			if (empty($_POST['kelas'])) {
-				$kelas_err = "* kelas harus diisi !";
-			}
-			else if (!preg_match("/^[a-zA-Z ]*$/", $_POST['kelas'])) {
-				$kelas_err = "* Hanya dapat menginputkan huruf !";
+			elseif (!is_numeric($_POST['id_jurusan'])) {
+				$id_jurusan_err = "* Hanya dapat menginputkan angka !";
 			}
 			else {
-				$kelas = trim($_POST['kelas']);
-			}
-			if (empty($_POST['golongan'])) {
-				$golongan_err = "* golongan harus diisi !";
-			}
-			elseif (!is_numeric($_POST['golongan'])) {
-				$golongan_err = "* Hanya dapat menginputkan angka !";
-			}
-			else {
-				$golongan = trim($_POST['golongan']);
+				$id_jurusan = trim($_POST['id_jurusan']);
+
 			}
 
-			if ($kode_kelas_err == "" && $kelas_err == "" && $golongan = "") {
-				mysqli_query($con, "INSERT INTO kelas (kode_kelas, kelas, golongan) VALUE ('$kode_kelas','$kelas', '$golongan') ");
+			if (empty($_POST['jurusan'])) {
+				$jurusan_err = "* jurusan harus diisi !";
+			}
+			else {
+				$jurusan = trim($_POST['jurusan']);
+			}
+
+			if ($id_jurusan_err == "" && $jurusan_err == "" ) {
+				mysqli_query($con, "INSERT INTO jurusan (id_jurusan, jurusan) VALUE ('$id_jurusan', '$jurusan') ");
+
 				echo "<script>
 						alert('Data berhasil ditambah');
-						window.location.href='data_kelas.php';
+						window.location.href='data_jurusan.php';
 					  </script>";
 			}
 
@@ -87,7 +76,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 		 		<div class="container-fluid">
 					<div class="panel">
 						<div class="panel-heading">
-							<h1 class="panel-title"><i class="lnr lnr-user"></i>&ensp;Tambah Data Kelas</h1>
+							<h1 class="panel-title"><i class="lnr lnr-user"></i>&ensp;Tambah Data Jurusan</h1>
 						</div>
 					</div>
 		 			<div class="row">
@@ -97,25 +86,17 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 		 							<form method="POST" action="">
 		 								<div class="row">
 		 									<div class="col-md-6">
-												<label for="">Kode Kelas</label>
-		 										<input type="text" name="kode_kelas" class="form-control" placeholder="kode kelas" value="<?php echo(isset($_POST['kode_kelas']) ? $_POST['kode_kelas'] : $kode_kelas ) ?>">
-		 										<span class="text-danger"> <?php echo($kode_kelas_err); ?></span>
+												<label for="">Id Jurusan</label>
+		 										<input type="text" name="id_jurusan" class="form-control" placeholder="Id jurusan" value="<?php echo(isset($_POST['id_jurusan']) ? $_POST['id_jurusan'] : $id_jurusan ) ?>">
+		 										<span class="text-danger"> <?php echo($id_jurusan_err); ?></span>
 		 									</div>
 		 								</div>
 		 								<br>
 		 								<div class="row">
 											<div class="col-md-6">
-												<label for="">Kelas</label>
-												<input type="text" name="kelas" class="form-control" placeholder="kelas" value="<?php echo(isset($_POST['kelas']) ? $_POST['kelas'] : $kelas ) ?>">
-												<span class="text-danger"> <?php echo($kelas_err); ?></span>
-		 									</div>
-		 								</div>
-		 								<br>
-		 								<div class="row">
-		 									<div class="col-md-6">
-												<label for="">golongan</label>
-		 										<input type="text" name="golongan" class="form-control" placeholder="golongan" value="<?php echo(isset($_POST['kode_kelas']) ? $_POST['golongan'] : $golongan ) ?>">
-		 										<span class="text-danger"> <?php echo($golongan_err); ?></span>
+												<label for="">jurusan</label>
+												<input type="text" name="jurusan" class="form-control" placeholder="Jurusan" value="<?php echo(isset($_POST['jurusan']) ? $_POST['jurusan'] : $jurusan ) ?>">
+												<span class="text-danger"> <?php echo($jurusan_err); ?></span>
 		 									</div>
 		 								</div>
 		 								<br>	

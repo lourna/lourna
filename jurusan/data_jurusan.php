@@ -10,7 +10,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
  <!doctype html>
 <html lang="en">
 <head>
-	<title>Data Guru | SIANI</title>
+	<title>Data Jurusan</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -43,7 +43,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 				<div class="container-fluid">
 					<div class="panel">
 						<div class="panel-heading">
-							<h3 class="panel-title"><i class="lnr lnr-user"></i>&ensp;Data Guru</h3>
+							<h3 class="panel-title"><i class="lnr lnr-user"></i>&ensp;Data Jurusan</h3>
 							<div class="col-md-2 col-md-offset-10">
 
 							</div>
@@ -56,7 +56,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 								<br>
 								<div class="row">
 									<div class="col-md-2">
-										<a href="tambah_guru.php"><button type="button" class="btn btn-primary btn-sm" style="margin-left: 25px; margin-bottom: 10px;">Tambah</button></a>
+										<a href="tambah_jurusan.php"><button type="button" class="btn btn-primary btn-sm" style="margin-left: 25px; margin-bottom: 10px;">Tambah</button></a>
 									</div>
 									 <div class="col-md-6"></div>
 									<div class="col-md-4">
@@ -74,12 +74,10 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 										<thead>
 											<tr>
 												<th>No</th>
-												<th>ID</th>
-												<th>Nama</th>
-												<th>No HP</th>
-												<th>Email</th>
-												<th>Action</th>
-												</tr>
+												<th>ID jurusan</th>
+												<th>Jurusan</th>
+												<th>Aksi</th>
+											</tr>
 										</thead>
 										<tbody>
 											<script type="text/javascript">
@@ -90,28 +88,22 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 												}
 											</script>
 											<?php
-												if (isset($_POST['btn_cari'])) {
-													$and = "AND guru LIKE '%$_POST[cari]%' AND guru != '$_SESSION[guru]'";
-												}
-												else{
-													$and = "";
-												}
-												$query = "SELECT * FROM guru";
+
+
+												$query = "SELECT * FROM jurusan ";
 												$result = mysqli_query($con, $query);
-												$jml_guru = mysqli_num_rows($result);
+												$jml_user = mysqli_num_rows($result);
 												$no = 1;
 												// $edit = "<td><a href='edit_user.php?id_user=$val[id_user]' class='btn btn-primary btn-xs' title='Edit'></a></td>";
 
 												foreach ($result as $val) {
 													echo "<tr>
 															<td>$no</td>
-															<td>$val[id_guru]</td>
-															<td>$val[nama_guru]</td>
-															<td>$val[no_hp]</td>
-															<td>$val[email]</td>
+															<td>$val[id_jurusan]</td>
+															<td>$val[jurusan]</td>
 															<td>
-															<a href='edit_guru.php?id_guru=$val[id_guru]' class='btn btn-primary btn-xs' title='Edit'><i class='fa fa-pencil'></i></a>
-															<a href='delete_guru.php?id_guru=$val[id_guru]' class='btn btn-danger btn-xs' title='Hapus'><i class='lnr lnr-trash'></i></a>
+															<a href='edit_jurusan.php?id_jurusan=$val[id_jurusan]' class='btn btn-primary btn-xs' title='Edit'><i class='fa fa-pencil'></i></a>
+															<a href='delete_jurusan.php?id_jurusan=$val[id_jurusan]' class='btn btn-danger btn-xs' title='Hapus'><i class='lnr lnr-trash'></i></a>
 															</td>
 														  </tr>
 													";
@@ -120,7 +112,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 													?>
 										</tbody>
 									</table>
-									<span class="text-default">Jumlah data : <?php echo($jml_guru) ?></span>
+									<span class="text-default">Jumlah data : <?php echo($jml_user) ?></span>
 								</div>
 							</div>
 						</div>

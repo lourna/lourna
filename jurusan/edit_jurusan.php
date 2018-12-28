@@ -9,7 +9,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 <!doctype html>
 <html lang="en">
 <head>
- <title>Data Kelas| SIANI</title>
+ <title>Data Jurusan SIANI</title>
  <meta charset="utf-8">
  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -36,48 +36,38 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 		<?php
 			include '../dashboard/navbar.php';
 			include '../dashboard/left_sidebar.php';
-			$query = "SELECT * FROM kelas WHERE kode_kelas = '$_GET[kode_kelas]'";
+			$query = "SELECT * FROM guru WHERE id_jurusan = '$_GET[id_jurusan]'";
 			$result = mysqli_query($con, $query);
 			$val = mysqli_fetch_assoc($result);
-			$kode_kelas_err = $kelas_err = $golongan_err ="";
-			$kode_kelas = $kelas= $golongan = "";
+			$id_jurusan_err = $jurusan_err ="";
+			$id_jurusan = $jurusan = "";
 
 			if ($_SERVER["REQUEST_METHOD"] == "POST") {
-				if (empty($_POST['kode_kelas'])) {
-				$kode_kelas_err = "* kode kelas harus diisi !";
-			}
-			elseif (!is_numeric($_POST['kode_kelas'])) {
-				$kode_kelas_err = "* Hanya dapat menginputkan angka !";
-			}
-			else {
-				$kode_kelas = trim($_POST['kode_kelas']);
-			}
+				if (empty($_POST['id_jurusan'])) {
+					$id_jurusan_err = "* jurusan harus diisi !";
+				}
+				elseif (!is_numeric($_POST['id_jurusan'])) {
+				$id_jurusan_err = "* Hanya dapat menginputkan angka !";
+				}
+				else {
+				$id_jurusan = trim($_POST['id_jurusan']);
 
-			if (empty($_POST['kelas'])) {
-				$kelas_err = "* kelas harus diisi !";
-			}
-			else if (!preg_match("/^[a-zA-Z ]*$/", $_POST['kelas'])) {
-				$kelas_err = "* Hanya dapat menginputkan huruf !";
-			}
-			else {
-				$kelas = trim($_POST['kelas']);
-			}
-			if (empty($_POST['golongan'])) {
-				$golongan_err = "* golongan harus diisi !";
-			}
-			elseif (!is_numeric($_POST['golongan'])) {
-				$golongan_err = "* Hanya dapat menginputkan angka !";
-			}
-			else {
-				$golongan = trim($_POST['golongan']);
-			}
+				}
+				if (empty($_POST['jurusan'])) {
+				$jurusan_err = "* jurusan harus diisi !";
+				}
+				else if (!preg_match("/^[a-zA-Z ]*$/", $_POST['jurusan'])) {
+				$jurusan_err = "* Hanya dapat menginputkan huruf !";
+				}
+				else {
+				$jurusan = trim($_POST['jurusan']);
+				}
 
-
-				if ($kode_kelas_err == "" && $kelas_err == "" && $golongan_err == "") {
-					mysqli_query($con, "UPDATE kelas SET kode_kelas = '$kode_kelas', kelas = '$kelas', golongan = '$golongan' WHERE kode_kelas = '$_POST[kode_kelas]' ");
+				if ($id_jurusan_err == "" && $jurusan_err == "") {
+					mysqli_query($con, "UPDATE jurusan SET id_jurusan = '$id_jurusan', jurusan = '$jurusan' WHERE id_jurusan = '$_POST[id_jurusan]' ");
 					echo "<script>
 						alert('Data berhasil diperbarui');
-						window.location.href='data_kelas.php';
+						window.location.href='data_guru.php';
 					 	</script>";
 				}
 			}
@@ -89,7 +79,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
  			 <div class="container-fluid">
  				 <div class="panel">
  					 <div class="panel-heading">
- 						 <h1 class="panel-title"><i class="fa fa-user"></i>&ensp;Edit Guru</h1>
+ 						 <h1 class="panel-title"><i class="fa fa-user"></i>&ensp;Edit Jurusan</h1>
  					 </div>
  				 </div>
  				 <div class="row">
@@ -98,31 +88,21 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
  							 <div class="row">
  							<div class="panel-body">
 									<form method="POST" action="">
-										<input type="hidden" name="kode_kelas" value="<?php echo $val['kode_kelas']?>">
+										<input type="hidden" name="id_guru" value="<?php echo $val['id_guru']?>">
 										<div class="row">
 											<div class="col-md-6">
-												<div class="col-md-6">
-												<label for="">Kode Kelas</label>
-												<input type="text" name="kode_kelas" class="form-control" placeholder="kode_kelas" value="<?php echo($val['kode_kelas']) ?>">
-		 										<span class="text-danger"> <?php echo($kode_kelas_err); ?></span>
+												<label for="">Id Jurusan</label>
+												<input type="text" name="id_jurusan" class="form-control" placeholder="ID Jurusan" value="<?php echo($val['id_jurusan']) ?>">
+		 										<span class="text-danger"> <?php echo($id_jurusan_err); ?></span>
 											</div>
 										</div>
 										<br>
 										<div class="row">
 										 <div class="col-md-6">
-											 <label for="">kelas</label>
-											 <input type="text" name="kelas" class="form-control" placeholder="kelas" value="<?php echo($val['kelas']) ?>">
-											 <span class="text-danger"> <?php echo($kode_kelas_err); ?></span>
+											 <label for="">Jurusan</label>
+											 <input type="text" name="jurusan" class="form-control" placeholder="jurusan" value="<?php echo($val['jurusan']) ?>">
+											 <span class="text-danger"> <?php echo($jurusan_err); ?></span>
 										 </div>
-										</div>
-										<br>
-										 <div class="row">
-											<div class="col-md-6">
-												<div class="col-md-6">
-												<label for="">golongan</label>
-												<input type="text" name="golongan" class="form-control" placeholder="golongan" value="<?php echo($val['golongan']) ?>">
-		 										<span class="text-danger"> <?php echo($golongan_err); ?></span>
-											</div>
 										</div>
 										<br>
 										<div class="row">

@@ -48,9 +48,18 @@ else {
 	<!-- WRAPPER -->
 	<div id="wrapper">
 		<?php
+		if ($_SESSION['level'] == 'Siswa') {
 			include 'navbar.php';
 			include 'left_sidebar.php';
-			include 'content_dashboard.php';
+			include 'biodata/biodata.php';
+		}
+		 else {
+			 include 'navbar.php';
+			 include 'left_sidebar.php';
+			 include 'content_dashboard.php';
+		}
+
+
 		 ?>
 
 		<div class="clearfix"></div>
