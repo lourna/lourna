@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 26, 2018 at 04:20 PM
+-- Generation Time: Dec 27, 2018 at 02:06 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -61,9 +61,43 @@ CREATE TABLE IF NOT EXISTS `guru` (
   `id_guru` int(10) NOT NULL,
   `nama_guru` varchar(50) NOT NULL,
   `no_hp` varchar(15) NOT NULL,
-  `email` varchar(30) NOT NULL,
-  `id_user` int(10) NOT NULL
+  `email` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `guru`
+--
+
+INSERT INTO `guru` (`id_guru`, `nama_guru`, `no_hp`, `email`) VALUES
+(1234, 'Amir', '0987658745678', 'amir@gmail.com'),
+(1111222, 'edwinromdoni', '08888899999', 'firdausillah123@gmail.com');
+
+--
+-- Triggers `guru`
+--
+DELIMITER //
+CREATE TRIGGER `create_user_guru` AFTER INSERT ON `guru`
+ FOR EACH ROW begin
+insert into users (id_user, user_name, password, level, status) values (NULL, new.id_guru, new.id_guru, 'Guru', 'Aktif');
+end
+//
+DELIMITER ;
+DELIMITER //
+CREATE TRIGGER `delete_user_guru` AFTER DELETE ON `guru`
+ FOR EACH ROW begin 
+delete from users where user_name = old.id_guru;
+end
+//
+DELIMITER ;
+DELIMITER //
+CREATE TRIGGER `update_user_guru` AFTER UPDATE ON `guru`
+ FOR EACH ROW begin
+if old.id_guru<>new.id_guru then
+update users set user_name=new.id_guru, password=new.id_guru where user_name=old.id_guru;
+end if;
+end
+//
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -79,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `hasil_nilai` (
   `kd_mapel` varchar(10) NOT NULL,
   `id_guru` int(10) NOT NULL,
   `id_thn_akad` int(10) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=615 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -172,11 +206,26 @@ CREATE TABLE IF NOT EXISTS `siswa` (
 -- Triggers `siswa`
 --
 DELIMITER //
-CREATE TRIGGER `user_siswa` BEFORE INSERT ON `siswa`
+CREATE TRIGGER `create_user_siswa` AFTER INSERT ON `siswa`
  FOR EACH ROW begin
-insert into users set user_name = siswa.nis;
-insert into users set password = siswa.nis;
-insert into users set level = 'siswa';
+insert into users (id_users, user_name, password, level, status)
+values (NULL, new.nis, new.nis, "siswa", "aktif");
+end
+//
+DELIMITER ;
+DELIMITER //
+CREATE TRIGGER `delete_user_siswa` AFTER DELETE ON `siswa`
+ FOR EACH ROW begin 
+delete from users where user_name = old.nis;
+end
+//
+DELIMITER ;
+DELIMITER //
+CREATE TRIGGER `update_user_siswa` AFTER UPDATE ON `siswa`
+ FOR EACH ROW begin
+if old.nis<>new.nis then
+update users set user_name=new.nis, password=new.nis where user_name=old.nis;
+end if;
 end
 //
 DELIMITER ;
@@ -216,7 +265,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(20) NOT NULL,
   `level` enum('Admin','Guru','Siswa') NOT NULL,
   `status` enum('Aktif','Nonaktif') NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
@@ -224,8 +273,11 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`id_user`, `user_name`, `password`, `level`, `status`) VALUES
 (19, 'admin', 'admin', 'Admin', 'Aktif'),
-(20, 'admin', 'admin', 'Admin', 'Aktif'),
-(21, 'fellia', '01', 'Siswa', 'Aktif');
+(21, 'fellia', '01', 'Guru', 'Aktif'),
+(22, '1111222', '1111222', 'Guru', 'Aktif'),
+(26, '1234', '1234', 'Guru', 'Aktif'),
+(27, 'a', 'a', 'Guru', 'Aktif'),
+(28, 'b', 'b', 'Siswa', 'Aktif');
 
 --
 -- Indexes for dumped tables
@@ -235,7 +287,7 @@ INSERT INTO `users` (`id_user`, `user_name`, `password`, `level`, `status`) VALU
 -- Indexes for table `guru`
 --
 ALTER TABLE `guru`
- ADD PRIMARY KEY (`id_guru`), ADD KEY `id_user` (`id_user`);
+ ADD PRIMARY KEY (`id_guru`);
 
 --
 -- Indexes for table `hasil_nilai`
@@ -293,12 +345,12 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `hasil_nilai`
 --
 ALTER TABLE `hasil_nilai`
-MODIFY `id_hasilnilai` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=615;
+MODIFY `id_hasilnilai` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-MODIFY `id_user` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
+MODIFY `id_user` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
 --
 -- Constraints for dumped tables
 --

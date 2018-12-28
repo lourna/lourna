@@ -54,7 +54,14 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 								<br>
 								<div class="row">
 									<div class="col-md-2">
-										<a href="tambah_siswa.php"><button type="button" class="btn btn-primary btn-sm" style="margin-left: 25px; margin-bottom: 10px;">Tambah</button></a>
+										<a href="tambah_siswa.php">
+											<button type="button" class="btn btn-primary btn-sm" style="margin-left: 25px; margin-bottom: 10px;">Tambah</button>
+										</a>
+									</div>
+									<div class="col-md-4">
+										<a href="#"">
+											<button type="button" class="btn btn-primary btn-sm" style="margin-left: 25px; margin-bottom: 10px;">Cari Kelas</button>
+										</a>
 									</div>
 									<div class="col-md-6"></div>
 									<div class="col-md-4">
@@ -98,7 +105,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 												else{
 													$and = "";
 												}
-												$query = "SELECT siswa.nis, first_name, last_name, kelas, tgl_lahir, alamat, no_hp, wali_murid, hp_wali FROM siswa LEFT JOIN kelas ON siswa.kd_kelas=kelas.kd_kelas";
+												$query = "SELECT siswa.nis, first_name, last_name, tgl_lahir, alamat, no_hp, wali_murid, hp_wali, kelas FROM siswa LEFT JOIN kelas ON siswa.kd_kelas=kelas.kd_kelas";
 												$result = mysqli_query($con, $query);
 												$jml_siswa = mysqli_num_rows($result);
 												$no = 1;

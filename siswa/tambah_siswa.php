@@ -38,23 +38,20 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 			include '../dashboard/navbar.php';
 			include '../dashboard/left_sidebar.php';
 
-			$nis_err = $first_name_err = $last_name_err = $kelas_err = $tgl_lahir_err = $alamat_err = $no_hp_err = $wali_murid_err = $hp_wali_err = "";
+			$nis_err = $first_name_err = $last_name_err = $kd_kelas_err = $tgl_lahir_err = $alamat_err = $no_hp_err = $wali_murid_err = $hp_wali_err = "";
 			$nis = $first_name = $last_name = $kd_kelas = $tgl_lahir = $no_hp = $wali_murid = $hp_wali = "";
 			$alamat = "Alamat";
 
 			if ($_SERVER["REQUEST_METHOD"] == "POST") {
-				$quser = mysqli_query($con, "SELECT first_name FROM siswa WHERE first_name = '$_POST[first_name]'");
-				$cekuser = mysqli_num_rows($quser);
+				$qnis = mysqli_query($con, "SELECT nis FROM siswa WHERE nis = '$_POST[nis]'");
+				$ceknis = mysqli_num_rows($qnis);
 				if (empty($_POST['nis'])) {
 					$nis_err = "* NIS harus diisi !";
 				}
-				elseif (!is_numeric($_POST['nis'])) {
-					$nis_err = "* NIS harus berupa angka !";
-				}
-				elseif ($nis > 0) {
+				elseif ($ceknis > 0) {
 					$nis_err = "* NIS telah digunakan !";
 				}
-				else {
+				else{
 					$nis = trim($_POST['nis']);
 				}
 
@@ -79,7 +76,7 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 				}
 
 				if (empty($_POST['kd_kelas'])) {
-					$kelas_err = "* Pilih kelas !";
+					$kd_kelas_err = "* Pilih kelas !";
 				}
 				else {
 					$kd_kelas = trim($_POST['kd_kelas']);
@@ -129,9 +126,9 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 					$hp_wali = $_POST['hp_wali'];
 				}
 
-				if ($nis_err == "" && $first_name_err == "" && $last_name_err == "" && $kelas_err == "" && $tgl_lahir_err == "" && $alamat_err == "" && $no_hp_err == "" && $wali_murid_err == "" && $hp_wali == "") {
+				if ($nis_err == "" && $first_name_err == "" && $last_name_err == "" && $kd_kelas_err == "" && $tgl_lahir_err == "" && $alamat_err == "" && $no_hp_err == "" && $wali_murid_err == "" && $hp_wali == "") {
 
-					mysqli_query($con, "INSERT INTO siswa (nis, first_name, last_name, tgl_lahir, alamat, no_hp, wali_murid, hp_wali, kd_kelas) VALUES ('$nis', '$first_name', '$last_name', '$tgl_lahir', '$alamat', '$no_hp', '$wali_murid', '$no_wali', '$kd_kelas')");
+					mysqli_query($con, "INSERT INTO siswa (nis, first_name, last_name, tgl_lahir, alamat, no_hp, wali_murid, hp_wali, kd_kelas) VALUE ('$nis', '$first_name', '$last_name', '$tgl_lahir', '$alamat', '$no_hp', '$wali_murid', '$hp_wali', '$kd_kelas')");
 
 					echo "<script>
 						alert('Data berhasil ditambah');
@@ -175,17 +172,19 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 											<div class="col-md-6">
 												<label for="">Kelas</label>
 											   		<select class="form-control" name="kd_kelas">
-														<option value="">-- Pilih Kelas --</option>
-														<?php
-															$qkelas = mysqli_query($con, "SELECT * FROM kelas left join jurusan on kelas.id_jurusan=jurusan.id_jurusan");
-															while ($val = mysqli_fetch_assoc($qkelas)) {
-																?>
-															<option name="kd_kelas" value="<?php echo $kd_kelas == "$val[kd_kelas]" ? 'selected' : '' ?>" > 
-																<?php echo "$val[kelas]"." $val[jurusan]"." $val[golongan]";  ?> 
-															</option>
-														<?php } ?>
+											   			<option value="">-- Pilih Kelas --</option>
+													<?php
+														$qkelas = mysqli_query($con, "SELECT * FROM kelas ");
+														while ($val = mysqli_fetch_assoc($qkelas)) {
+															echo "<option value = '$val[kd_kelas]' isset($_POST[kd_kelas]) && $_POST[kd_kelas] == $val[kd_kelas] ? 'selected' : ''> 
+															$val[kd_kelas]
+															 </option>";
+														}
+													 ?>
+
+														
 											    	</select>
-													<span class="text-danger"><?php echo ($kelas_err) ?></span>
+													<span class="text-danger"><?php echo ($kd_kelas_err) ?></span>
 											 </div>
 										</div>
 										<br>
