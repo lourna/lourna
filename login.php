@@ -83,7 +83,7 @@
 					<div class="right">
 						<div class="overlay"></div>
 						<div class="content text">
-							<h1 class="heading">SIANI</h1>
+							<!-- <h1 class="heading">SIANI</h1> -->
 							<p></p>
 						</div>
 					</div>

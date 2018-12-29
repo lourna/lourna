@@ -93,10 +93,10 @@ if (empty($_SESSION['user_name']) && empty($_SESSION['level'])) {
 											</script>
 											<?php
 												if (isset($_POST['btn_cari'])) {
-													$and = "AND users LIKE '%$_POST[cari]%' AND user_name != '$_SESSION[user_name]'";
+													$where = "WHERE user_name LIKE '%$_POST[cari]%'";
 												}
 												else{
-													$and = "";
+													$where = "";
 												}
 												// procedure
 												$query = "call user";
